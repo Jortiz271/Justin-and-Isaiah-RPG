@@ -1,44 +1,55 @@
 #include <string>
+#include <utility>
+#include <set>
 using namespace std;
 class Entity
 {
-public:
+protected:
 int Health;
 int Attack;
-string Defense;
+int Defense;
 int Level;
+bool Dead;
 string AttackType;
-protected:
-void DealDamage(int);
-void GetHealth();
-void SetHealth(int);
-void TakeDamage(int,int);
+pair<string,int> armor;
+pair<string,int> weapon;
+pair<string,int> spell;
+set<pair<string,int>> equipment;
+public:
+void virtual DealDamage(Entity*) const;
+int GetHealth();
+void virtual SetHealth(int);
+int GetDefense();
+void SetDefense(int);
 };
 class Player : Entity
 {
-public:
+private:
 string armor,weapon,magic;
 int mana,experience,healthPotions;
-private:
+public:
 bool CanCast(int);
 void DealDamage(bool);
 void SetEquipment(string);
-void GetMana();
-void SetMana();
+void SetHealth(int,int);
+int GetMana();
+void SetMana(int);
 };
 class Enemy : Entity
 {
-    public:
-string loot;
-string DropLoot(int);
-int DropExperience(int);
+public:
+
+string DropLoot(int,bool);
+int DropExperience(int,bool);
 void GenerateSprite();
+protected:
+string Loot;
+
 };
 class Boss : Enemy
 {
 public:
 void isInviincible(int);
-int takeDamage(bool,int,int);
 private:
 int TurnCounter;
 bool invincibility;

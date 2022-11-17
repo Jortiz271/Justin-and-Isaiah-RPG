@@ -17,18 +17,18 @@ bool SetTrap(int);
 };
 class MonsterHouse : Room
 {
-public:
+private:
 int Waves;
 bool IsComplete;
 bool IsLastWave;
-private:
+public:
 vector<vector<Entity>> Wave;
 vector<Entity> GenerateWave(int,bool);
 void AdvanceRoom(bool,int);
 };
 class Dungeon
 {
-public:
+private:
 int FLOORMAX;
 int FloorMIN;
 int CurrFloor;
@@ -41,8 +41,9 @@ enum FloorName
     Prison = 4
 
 };
-protected:
+public:
 int AdvanceFloor(int);
 void GenerateRooms(int);
+void GenerateHouse(int);
 void FinishDungeon();
 };
