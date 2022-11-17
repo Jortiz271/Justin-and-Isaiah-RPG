@@ -21,9 +21,9 @@ public:
 int Waves;
 bool IsComplete;
 bool IsLastWave;
-protected:
+private:
 vector<vector<Entity>> Wave;
-vector<Entity> GenerateWave(int);
+vector<Entity> GenerateWave(int,bool);
 void AdvanceRoom(bool,int);
 };
 class Dungeon
