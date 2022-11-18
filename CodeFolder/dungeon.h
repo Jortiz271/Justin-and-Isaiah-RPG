@@ -37,8 +37,7 @@ enum FloorName
 {
     Basement = 1,
     Forest = 2,
-    Castle = 3,
-    Prison = 4
+    Castle = 3
 
 };
 public:

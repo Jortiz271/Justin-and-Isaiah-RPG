@@ -4,12 +4,15 @@
 class Engine
 {
 public:
+Engine()
+{
+    now = IDLING;
+}
 enum CurrentState { UPDATING, IDLING };
 CurrentState now;
-RenderWindow GenerateWindow();
+void GenerateWindow(std::string title);
 void GenerateTextbox(std::string a,sf::Vector2i b);
-void FlipState();
+void FlipState(CurrentState);
 void EngineStart();
-std::string SetWindowName(std::string a);
-RenderWindow* win = &GenerateWindow();
+sf::RenderWindow win;
 };
