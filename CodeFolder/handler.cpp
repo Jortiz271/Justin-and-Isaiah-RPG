@@ -2,32 +2,37 @@
 using namespace sf;
 void Engine::GenerateWindow(std::string title)
 {
-win.create(sf::VideoMode(1920,1080,32),title);
+   float width, height;
+	width = VideoMode::getDesktopMode().width;
+	height = VideoMode::getDesktopMode().height;
+	VideoMode vm(width, height); 
+win.create(vm,title,sf::Style::Default);
 }
 void Engine::GenerateTextbox(std::string a,sf::Vector2i b)
 {
 Font font;
-font.loadFromFile("fonts/PaladinFLF.ttf");
-Text textbox;
-textbox.setString(a);
-textbox.setFont(font);
+font.loadFromFile("/home/admin/Desktop/rpg/Justin-and-Isaiah-RPG/fonts/PaladinFLF.ttf");
+Text textbox(a,font,10);
 textbox.setFillColor(sf::Color::White);
-textbox.setOutlineColor(sf::Color::Black);
+textbox.setOutlineColor(sf::Color::White);
 textbox.setScale(1,1);
-textbox.setStyle(sf::Text::Bold);
 textbox.setPosition(b.x,b.y);
-win.draw(textbox);
-FlipState(now);
+DrawAll(textbox);
 }
-void Engine::FlipState(Engine::CurrentState a)
+void Engine::FlipState()
 {
-    if(a == Engine::CurrentState::UPDATING)
+    bool switched = false;
+    if(now == UPDATING && !switched)
     {
-        a = Engine::CurrentState::IDLING;
+        now = IDLING;
+        switched = true;
+        std::cout << "Idling" << std::endl;
     }
-    else
+    if(now == IDLING && !switched)
     {
-        a = Engine::CurrentState::UPDATING;
+        now = UPDATING;
+        switched = true;
+        std::cout << "Updating" << std::endl;
     }
 }
 void Engine::EngineStart()
@@ -40,15 +45,34 @@ while (win.isOpen())
         // Window closed
         if (evt.type == sf::Event::Closed)
             win.close();
-
-        // Escape key pressed
-        if ((evt.type == sf::Event::KeyPressed) && (evt.key.code == sf::Keyboard::Escape))
-            win.close();
-    }
-    if(Engine::now == Engine::CurrentState::UPDATING)
+        if(evt.type == sf::Event::MouseButtonPressed)
     {
-        win.display();
-        FlipState(now);
+        Engine::GenerateTextbox("Hello World",Vector2i(Mouse::getPosition().x,Mouse::getPosition().y));
     }
+    }
+    if(now == UPDATING)
+    {
+        std::cout << "EngineUpdate" << std::endl;
+        UpdateWindow();
+    }
+    
 }
+}
+template<typename T>
+void Engine::DrawAll(T a)
+{
+    std::cout << "drawing all objects" << std::endl;
+win.draw(a);
+UpdateWindow();
+}
+void Engine::UpdateWindow()
+{
+ std::cout << "updatingWindow" << std::endl;
+
+    win.display();
+    FlipState();
+}
+void Engine::ClearWindow(sf::RenderWindow window)
+{
+win.clear();
 }

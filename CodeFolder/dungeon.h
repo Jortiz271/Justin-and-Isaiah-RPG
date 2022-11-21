@@ -29,8 +29,8 @@ void AdvanceRoom(bool,int);
 class Dungeon
 {
 private:
-int FLOORMAX;
-int FloorMIN;
+int FLOORMAX = 10;
+int FloorMIN = 1;
 int CurrFloor;
 vector<Room> Rooms;
 enum FloorName
