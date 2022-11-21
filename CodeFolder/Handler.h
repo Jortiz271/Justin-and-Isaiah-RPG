@@ -11,10 +11,9 @@ Engine()
 enum CurrentState { UPDATING, IDLING };
 CurrentState now;
 void GenerateWindow(std::string title);
-void GenerateTextbox(std::string a,sf::Vector2i b);
-void GenerateBox();
-void GenerateSprite();
-void GenerateTexture(std::string textureFile);
+void GenerateTextbox(std::string a,sf::Vector2f b);
+void GenerateBox(std::string title, sf::Vector2f b);
+void GenerateSprite(std::string fileName,sf::Vector2f b);
 void FlipState();
 template<typename T>
 void DrawAll(T a);
