@@ -8,6 +8,8 @@ public:
 int MonsterNumber;
 int RoomsSinceLastTrap;
 Entity GenerateMonster(int,bool);
+vector<Entity> GenerateRoomBattle();
+void ResetRoom();
 protected:
 bool Trap;
 string TrapType;
@@ -37,6 +39,7 @@ int FloorMIN = 1;
 int CurrFloor;
 vector<Room> Rooms;
 Room CurrentRoom;
+MonsterHouse BossRoom;
 enum FloorName
 {
     Castle,Basement,Forest
