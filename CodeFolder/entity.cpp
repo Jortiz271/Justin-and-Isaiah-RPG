@@ -63,19 +63,3 @@ void Player::SetMana(int CurrFloor)
 {
 mana += CurrFloor;
 }
-string Enemy::DropLoot(int CurrFloor,bool modifed)
-{
-
-}
-int Enemy::DropExperience(int CurrFloor,bool modified)
-{
-
-}
-void Enemy::GenerateSprite()
-{
-
-}
-void Boss::isInviincible(int turnCounter)
-{
-
-}

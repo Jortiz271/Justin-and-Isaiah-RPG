@@ -1,17 +1,21 @@
-#include "Headers/BasicEnemy.h"
+#include "BasicEnemy.h"
 #include <cstdlib>
 #include <iostream>
 #include <time.h>
 #include <SFML/Graphics.hpp>
 using namespace sf;
-string BasicEnemy::dropLoot()
+using namespace std;
+vector<pair<string,int>> BasicEnemy::dropLoot()
 {
-	string item = "LightSaber";
+	vector<pair<string,int>> Loot;
+	Loot.push_back(this->armorEquip);
+	Loot.push_back(this->weaponEquip);
+	return Loot;
 }
 
 int BasicEnemy::dropExperience()
 {
-	return 10 * this->getLevel();
+	return 10 * Level;
 }
 
 Sprite BasicEnemy::generateSprite()

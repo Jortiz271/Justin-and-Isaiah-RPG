@@ -1,16 +1,25 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 #include <string>
-#include "Entity.h"
+#include "entity.h"
 using namespace std;
 class BasicEnemy : public Entity
 {
-private:
-	string armor;
-	string weapon;
+protected:
+	pair<string,int> armorEquip;
+	pair<string,int> weaponEquip;
 public:
-	string dropLoot();
+	vector<pair<string,int>> dropLoot();
 	int dropExperience();
-	Sprite generateSprite();
+	sf::Sprite generateSprite();
+};
+class Boss : BasicEnemy
+{
+public:
+void isInviincible(int);
+private:
+int TurnCounter;
+bool invincibility;
+string prefix;
 };
 #endif

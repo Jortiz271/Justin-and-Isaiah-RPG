@@ -1,15 +1,18 @@
 #include <vector>
 #include "entity.h"
+#include <map>
 using namespace std;
 class Room
 {
 public:
 int MonsterNumber;
+int RoomsSinceLastTrap;
+Entity GenerateMonster(int,bool);
 protected:
 bool Trap;
 string TrapType;
 vector<Entity> Monsters;
-Entity GenerateMonster(string,int,bool);
+Entity CurrentMonster;
 void AdvanceRoom(int);
 int WaitInRoom(int);
 void PickBackground();
@@ -33,16 +36,16 @@ int FLOORMAX = 10;
 int FloorMIN = 1;
 int CurrFloor;
 vector<Room> Rooms;
+Room CurrentRoom;
 enum FloorName
 {
-    Basement = 1,
-    Forest = 2,
-    Castle = 3
-
+    Castle,Basement,Forest
 };
+std::map<FloorName, string> FloorToString;
 public:
-int AdvanceFloor(int);
-void GenerateRooms(int);
-void GenerateHouse(int);
+int AdvanceFloor();
+void GenerateRooms();
+void GenerateHouse();
 void FinishDungeon();
+void PopulateFloorNameMap();
 };

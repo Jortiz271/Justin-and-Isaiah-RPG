@@ -1,6 +1,7 @@
 #include <string>
 #include <utility>
 #include <set>
+#include "Handler.h"
 using namespace std;
 class Entity : Engine
 {
@@ -38,24 +39,4 @@ void SetEquipment(pair<string,int> thing,EquipType);
 void SetHealth(int,int);
 int GetMana();
 void SetMana(int);
-};
-class Enemy : Entity
-{
-public:
-
-string DropLoot(int,bool);
-int DropExperience(int,bool);
-void GenerateSprite();
-protected:
-string Loot;
-
-};
-class Boss : Enemy
-{
-public:
-void isInviincible(int);
-private:
-int TurnCounter;
-bool invincibility;
-string prefix;
 };
