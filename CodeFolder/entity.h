@@ -2,7 +2,7 @@
 #include <utility>
 #include <set>
 using namespace std;
-class Entity
+class Entity : Engine
 {
 protected:
 int Health;
@@ -13,24 +13,28 @@ bool Dead;
 string AttackType;
 pair<string,int> armor;
 pair<string,int> weapon;
-pair<string,int> spell;
 set<pair<string,int>> equipment;
 public:
-void virtual DealDamage(Entity*) const;
+void virtual DealDamage(Entity*);
 int GetHealth();
 void virtual SetHealth(int);
 int GetDefense();
-void SetDefense(int);
+void SetDefense(pair<string,int> armor);
+enum EquipType
+{
+    armor,weapon,spell
+};
+EquipType itemType;
 };
 class Player : Entity
 {
 private:
-string armor,weapon,magic;
 int mana,experience,healthPotions;
+pair<string,int> spell;
 public:
 bool CanCast(int);
-void DealDamage(bool);
-void SetEquipment(string);
+void DealDamage(bool,Entity*);
+void SetEquipment(pair<string,int> thing,EquipType);
 void SetHealth(int,int);
 int GetMana();
 void SetMana(int);

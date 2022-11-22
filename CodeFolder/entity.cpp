@@ -1,22 +1,15 @@
 #include "entity.h"
-
-void Entity::DealDamage(Entity* a) const
-{
-    if(Attack > a->GetDefense())
-    {
-    a->SetHealth(-Attack + a->GetDefense());
-    }
-}
+#include "Handler.h"
 
 int Entity::GetHealth()
 {
 return Health;
 }
-void Entity::SetHealth(int a)
+void Entity::SetHealth(int ChangeValue)
 {
-if((Health + a) > 0)
+if((Health + ChangeValue) > 0)
 {
-    Health += a;
+    Health += ChangeValue;
 }
 else
 {
@@ -27,28 +20,34 @@ int Entity::GetDefense()
 {
 return Defense;
 }
-void Entity::SetDefense(int a)
+void Entity::SetDefense(pair<string,int> armor)
 {
-Defense = a;
+Defense = armor.second;
 }
 bool Player::CanCast(int a)
 {
 return GetMana() >= 3 ? true : false;
 }
-void Player::DealDamage(bool a)
+void Player::DealDamage(bool enoughMana,Entity* enemy)
 {
-if(a)
+if(enoughMana)
 {
-    Player::Attack *= 3;
-    Entity::DealDamage(this);
-    Player::Attack /= 3;
+    Attack *= 3;
+    enemy->SetHealth(Attack - enemy->GetDefense());
+    Attack /= 3;
 }
 else
 {
-Entity::DealDamage(this);
+    if(Attack - enemy->GetDefense() > 0)
+    {
+        enemy->SetHealth(Attack - enemy->GetDefense());
+    }
+    else
+    {
+    }
 }
 }
-void Player::SetEquipment(string a)
+void Player::SetEquipment(pair<string,int> thing,EquipType)
 {
 
 }
@@ -60,8 +59,23 @@ int Player::GetMana()
 {
 return mana;
 }
-void Player::SetMana(int a)
+void Player::SetMana(int CurrFloor)
 {
-mana += a;
+mana += CurrFloor;
 }
+string Enemy::DropLoot(int CurrFloor,bool modifed)
+{
 
+}
+int Enemy::DropExperience(int CurrFloor,bool modified)
+{
+
+}
+void Enemy::GenerateSprite()
+{
+
+}
+void Boss::isInviincible(int turnCounter)
+{
+
+}
