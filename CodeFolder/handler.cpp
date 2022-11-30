@@ -45,13 +45,9 @@ void Engine::EngineStart()
                 win.close();
             if (evt.type == sf::Event::MouseButtonPressed)
             {
-                if (evt.mouseButton.button == Mouse::Button::Right)
+                if (evt.mouseButton.button == Mouse::Button::Left)
                 {
-                    Engine::GenerateSprite("/home/admin/Desktop/rpg/Justin-and-Isaiah-RPG/graphics/Boss.png", Vector2f(Mouse::getPosition().x, Mouse::getPosition().y));
-                }
-                else
-                {
-                    Engine::GenerateBox("It just works", Vector2f(Mouse::getPosition().x, Mouse::getPosition().y));
+                    UpdateWindow();
                 }
             }
         }
@@ -65,7 +61,6 @@ template <typename T>
 void Engine::DrawAll(T a) const
 {
     win.draw(a);
-    UpdateWindow();
 }
 void Engine::UpdateWindow()
 {
@@ -79,22 +74,18 @@ void Engine::ClearWindow()
 }
 void Engine::GenerateBox(std::string title, sf::Vector2f b) const
 {
-    
-    if(title == "Battle Log")
+    if(title == "BaseUI")
     {
-    sf::RectangleShape rect(Vector2f(title.length()*20, title.length()*20));
-    rect.setPosition(Vector2f(0, 1080/2));
-    rect.setFillColor(sf::Color::Blue);
-    DrawAll(rect);
-    GenerateTextbox(title,Vector2f(title.length()*5,1080/2));
+        sf::RectangleShape rect(Vector2f(1920,1080/2));
+        rect.setPosition(Vector2f(0,1080/2));
+        rect.setFillColor(sf::Color::Green);
+        DrawAll(rect);
     }
-    else{
-    sf::RectangleShape rect(Vector2f(title.length()*5, title.length()*5));
+    sf::RectangleShape rect(Vector2f(50,50));
     rect.setPosition(Vector2f(b.x, b.y));
     rect.setFillColor(sf::Color::Red);
     DrawAll(rect);
-    GenerateTextbox(title, Vector2f(b.x,b.y + title.length()));
-    }
+    GenerateTextbox(title, Vector2f(b.x + 5,b.y + title.length()));
 }
 void Engine::GenerateSprite(std::string fileName, sf::Vector2f b) const
 {
@@ -102,15 +93,7 @@ void Engine::GenerateSprite(std::string fileName, sf::Vector2f b) const
     texture.loadFromFile(fileName);
     Sprite sprite;
     sprite.setPosition(Vector2f(b.x, b.y));
-	sprite.setScale(.45,.45);
+	sprite.setScale(4,1.5);
     sprite.setTexture(texture);
     DrawAll(sprite);
-}
-void Engine::PopBattleLog(std::vector<Text> buffer)
-{
-for(int i = buffer.size(); i > 0; i--)
-{
-    
-}
-
 }

@@ -1,9 +1,4 @@
 #include "dungeon.h"
-Entity Room::GenerateMonster(int CurrFloor,bool modifiable)
-{
-    //Generate monster, then push it back into the vector of enemies/bosses.
-
-}
 void Room::AdvanceRoom(int RoomsRemaining)
 {
     //check if there are any more rooms after this one.
@@ -25,12 +20,7 @@ void Room::PickBackground()
     //setup the backgound texture for the floor
 
 }
-bool Room::SetTrap(int RoomsRemaining)
-{
-    //set a trap in a room, have it trigger when the player enters
-
-}
-vector<Entity> Room::GenerateRoomBattle()
+vector<Entity*> Room::GenerateRoomBattle()
 {
     bool lastMonsterWasModified = false;
     //Generate a number of monsters equal to 3 more than the current floor
@@ -39,13 +29,13 @@ vector<Entity> Room::GenerateRoomBattle()
         if (i > 4 && !lastMonsterWasModified)
         {
 
-            CurrentMonster = CurrentRoom.GenerateMonster(CurrFloor, true);
+            CurrentMonster = new BasicEnemy(CurrFloor, true);
             lastMonsterWasModified = true;
             Monsters.push_back(CurrentMonster);
         }
         else
         {
-            CurrentMonster = CurrentRoom.GenerateMonster(CurrFloor, false);
+            CurrentMonster = new BasicEnemy(CurrFloor, false);
             lastMonsterWasModified = false;
             Monsters.push_back(CurrentMonster);
 
@@ -57,7 +47,7 @@ vector<Entity> Room::GenerateRoomBattle()
 int Dungeon::AdvanceFloor()
 {
     //clear the vector of rooms for redundancy, then increment the number of current floor, if its less tha FloorMax, else call finish dungeon.
-    if (CurrFloor + 1 < FloorMax)
+    if (CurrFloor + 1 < FLOORMAX)
     {
         CurrFloor += 1;
     }
@@ -72,23 +62,14 @@ void Dungeon::GenerateRooms()
     {
         CurrentRoom.GenerateRoomBattle();
         Rooms.push_back(CurrentRoom);
-        CurrentRoom.ResetRoom();
     }
-    BossRoom.GenerateHouse();
-    Rooms.push_back(BossRoom);
    
 }
 void Dungeon::FinishDungeon()
 {
-    if(CurrFloor = FLOORMAX)
+    if(CurrFloor == FLOORMAX)
     {
         //display win screen
     }
     
-}
-void Dungeon::PopulateFloorNameMap()
-{
-    FloorToString.emplace(Castle,"castle");
-    FloorToString.emplace(Basement,"basement");
-    FloorToString.emplace(Forest,"forest");
 }

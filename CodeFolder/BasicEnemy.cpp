@@ -8,8 +8,8 @@ using namespace std;
 vector<pair<string,int>> BasicEnemy::dropLoot()
 {
 	vector<pair<string,int>> Loot;
-	Loot.push_back(this->armorEquip);
-	Loot.push_back(this->weaponEquip);
+	Loot.push_back(this->armor);
+	Loot.push_back(this->weapon);
 	return Loot;
 }
 
@@ -17,7 +17,6 @@ int BasicEnemy::dropExperience()
 {
 	return 10 * Level;
 }
-
 Sprite BasicEnemy::generateSprite()
 {
 	Texture Monster;
@@ -54,8 +53,39 @@ Sprite BasicEnemy::generateSprite()
 	{
 		return spriteMonster;
 	}
-	else if (randomSelection == 3)
+	else
 	{
 		return spriteMonster2;
+	}
+}
+BasicEnemy::BasicEnemy(int CurrFloor,bool Modifiable)
+{
+	Health = CurrFloor * 3;
+	if(Modifiable)
+	{
+		Attack = CurrFloor * 3;
+	}
+	else
+	{
+		Attack = CurrFloor;
+	}
+};
+Boss::Boss(int CurrFloor,bool Modifiable)
+{
+Health = CurrFloor * 5;
+if(Modifiable)
+{
+	Attack = CurrFloor * 7;
+}
+else
+{
+Attack = CurrFloor * 5;
+}
+}
+void BasicEnemy::DealDamage(Entity* opponent)
+{
+	if(Attack > opponent->Defense)
+	{
+		opponent->SetHealth(Attack - opponent->Defense);
 	}
 }

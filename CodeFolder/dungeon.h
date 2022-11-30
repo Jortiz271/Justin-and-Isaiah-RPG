@@ -1,45 +1,34 @@
+#pragma once
 #include <vector>
 #include "entity.h"
+#include "BasicEnemy.h"
 #include <map>
 using namespace std;
 class Room
 {
 public:
 int MonsterNumber;
-int RoomsSinceLastTrap;
-Entity GenerateMonster(int,bool);
-vector<Entity> GenerateRoomBattle();
-void ResetRoom();
+int CurrFloor;
+BasicEnemy GenerateMonster(int,bool);
+vector<Entity*> GenerateRoomBattle();
 protected:
 bool Trap;
 string TrapType;
-vector<Entity> Monsters;
-Entity CurrentMonster;
+vector<Entity*> Monsters;
+Entity* CurrentMonster;
 void AdvanceRoom(int);
 int WaitInRoom(int);
 void PickBackground();
-bool SetTrap(int);
-};
-class MonsterHouse : Room
-{
-private:
-int Waves;
-bool IsComplete;
-bool IsLastWave;
-public:
-vector<vector<Entity>> Wave;
-vector<Entity> GenerateWave(int,bool);
-void AdvanceRoom(bool,int);
+void SetCurrFloor();
 };
 class Dungeon
 {
 private:
 int FLOORMAX = 10;
 int FloorMIN = 1;
-int CurrFloor;
+
 vector<Room> Rooms;
 Room CurrentRoom;
-MonsterHouse BossRoom;
 enum FloorName
 {
     Castle,Basement,Forest
@@ -50,5 +39,5 @@ int AdvanceFloor();
 void GenerateRooms();
 void GenerateHouse();
 void FinishDungeon();
-void PopulateFloorNameMap();
+int CurrFloor;
 };

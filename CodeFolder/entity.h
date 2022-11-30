@@ -1,33 +1,35 @@
+#pragma once
 #include <string>
 #include <utility>
 #include <set>
 #include "Handler.h"
 using namespace std;
-class Entity : Engine
+class Entity : public Engine
 {
-protected:
+public:
 int Health;
 int Attack;
 int Defense;
 int Level;
 bool Dead;
 string AttackType;
-pair<string,int> armor;
-pair<string,int> weapon;
 set<pair<string,int>> equipment;
-public:
-void virtual DealDamage(Entity*);
+void virtual DealDamage(Entity*) = 0;
 int GetHealth();
 void virtual SetHealth(int);
 int GetDefense();
 void SetDefense(pair<string,int> armor);
 enum EquipType
 {
-    armor,weapon,spell
+    armorEquip,weaponEquip,spellEquip
 };
 EquipType itemType;
+~Entity()
+{
+
 };
-class Player : Entity
+};
+class Player : public Entity
 {
 private:
 int mana,experience,healthPotions;

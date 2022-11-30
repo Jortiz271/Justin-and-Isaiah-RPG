@@ -8,7 +8,11 @@ int main()
 {
 Engine handler;
 handler.GenerateWindow("Tales of Flame and Fire");
-handler.GenerateBox("Battle Log",Vector2f(1920/2,1080/2));
+handler.GenerateBox("BaseUI",Vector2f(0,0));
+handler.GenerateBox("Cast",Vector2f(1920/4,1080/2));
+handler.GenerateBox("Attack",Vector2f(0,1080/2));
+handler.GenerateBox("Heal",Vector2f(1920/2,1080/2));
+handler.GenerateBox("Advance\nRoom",Vector2f(1920 - 128,1080/2));
 handler.GenerateSprite("/home/admin/Desktop/rpg/Justin-and-Isaiah-RPG/graphics/dungeon1.jpg",Vector2f(0,0));
 handler.EngineStart();
 }

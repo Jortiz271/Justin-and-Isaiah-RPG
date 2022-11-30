@@ -13,7 +13,8 @@ private:
 	int healthPotions;
 public:
 	bool canCast(int mpCost);
-	bool dealDamage(bool attking);
+	void dealDamage();
+	void dealMagicDamage();
 	void setEquipment(string item);
 	int getHealth();
 	void setHealth(int HP);

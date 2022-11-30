@@ -13,9 +13,14 @@ bool Player::canCast(int mpCost)
 }
 
 // what is this for?????
-bool Player::dealDamage(bool attking)
+//was gonna try and use one function declaration to handle casting spells and attacking with sword
+void Player::dealMagicDamage()
 {
-
+	
+}
+void Player::dealDamage()
+{
+	
 }
 
 void Player::setEquipment(string item)
