@@ -28,13 +28,14 @@ bool Player::CanCast(int a)
 {
 return GetMana() >= 3 ? true : false;
 }
-void Player::DealDamage(bool enoughMana,Entity* enemy)
+void Player::DealDamage(Entity* enemy)
 {
-if(enoughMana)
+if(CanCast(mana))
 {
-    Attack *= 3;
+    Attack *= spell.second;
     enemy->SetHealth(Attack - enemy->GetDefense());
-    Attack /= 3;
+    Attack /= spell.second;
+    mana -= 3;
 }
 else
 {

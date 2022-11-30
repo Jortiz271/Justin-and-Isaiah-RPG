@@ -1,4 +1,7 @@
 #include "Handler.h"
+#include "entity.h"
+#include "BasicEnemy.h"
+#include "dungeon.h"
 using namespace sf;
 void Engine::GenerateWindow(std::string title)
 {
@@ -35,6 +38,14 @@ void Engine::FlipState()
 }
 void Engine::EngineStart()
 {
+    sf::Rect<int> Atk(Vector2i(0,1080/2),Vector2i(50,50));
+    sf::Rect<int> Cas(Vector2i(0,1080/2),Vector2i(50,50));
+    sf::Rect<int> Hel(Vector2i(0,1080/2),Vector2i(50,50));
+    sf::Rect<int> Adv(Vector2i(0,1080/2),Vector2i(50,50));
+
+    Player* player = new Player();
+    Entity* CurrentMonster = new BasicEnemy(1,false);
+    Room* CurrentRoom = new Room();
     while (win.isOpen())
     {
         sf::Event evt;
@@ -47,7 +58,25 @@ void Engine::EngineStart()
             {
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
-                    UpdateWindow();
+                    if(Atk.contains(Mouse::getPosition(win)))
+                    {
+                        player->DealDamage(CurrentMonster);
+                        std::cout << "You bashed" << std::endl;
+                    }
+                    if(Cas.contains(Mouse::getPosition(win)))
+                    {
+                        player->DealDamage(CurrentMonster);
+                        std::cout << "You magicked" << std::endl;
+                    }
+                    if(Hel.contains(Mouse::getPosition(win)))
+                    {
+                        player->SetHealth(1,player->healthPotions);
+                        std::cout << "You healed!" << std::endl;
+                    }
+                    if(Adv.contains(Mouse::getPosition(win)))
+                    {
+                        std::cout << "man" << std::endl;
+                    }
                 }
             }
         }

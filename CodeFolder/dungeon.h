@@ -11,31 +11,28 @@ int MonsterNumber;
 int CurrFloor;
 BasicEnemy GenerateMonster(int,bool);
 vector<Entity*> GenerateRoomBattle();
-protected:
 bool Trap;
 string TrapType;
 vector<Entity*> Monsters;
 Entity* CurrentMonster;
-void AdvanceRoom(int);
 int WaitInRoom(int);
 void PickBackground();
 void SetCurrFloor();
 };
 class Dungeon
 {
-private:
+public:
 int FLOORMAX = 10;
 int FloorMIN = 1;
 
-vector<Room> Rooms;
-Room CurrentRoom;
+vector<Room*> Rooms;
+Room* CurrentRoom;
 enum FloorName
 {
     Castle,Basement,Forest
 };
 std::map<FloorName, string> FloorToString;
-public:
-int AdvanceFloor();
+void Advance();
 void GenerateRooms();
 void GenerateHouse();
 void FinishDungeon();

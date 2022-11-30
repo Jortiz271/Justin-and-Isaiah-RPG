@@ -2,9 +2,8 @@
 #include <string>
 #include <utility>
 #include <set>
-#include "Handler.h"
 using namespace std;
-class Entity : public Engine
+class Entity
 {
 public:
 int Health;
@@ -31,14 +30,24 @@ EquipType itemType;
 };
 class Player : public Entity
 {
-private:
+public:
 int mana,experience,healthPotions;
 pair<string,int> spell;
-public:
 bool CanCast(int);
-void DealDamage(bool,Entity*);
+void DealDamage(Entity*) override;
 void SetEquipment(pair<string,int> thing,EquipType);
 void SetHealth(int,int);
 int GetMana();
 void SetMana(int);
+inline Player()
+{
+    mana = 12;
+    experience = 0;
+    healthPotions = 6;
+    spell.first = "fireball";
+    spell.second = 3;
+    Defense = 2;
+    Attack = 2;
+
+}
 };

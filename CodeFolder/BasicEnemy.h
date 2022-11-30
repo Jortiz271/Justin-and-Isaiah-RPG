@@ -1,6 +1,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
+#include <vector>
 #include <string>
+#include <SFML/Graphics.hpp>
 #include "entity.h"
 using namespace std;
 class BasicEnemy : public Entity
