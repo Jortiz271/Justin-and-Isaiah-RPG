@@ -110,19 +110,32 @@ void Engine::GenerateBox(std::string title, sf::Vector2f b) const
         rect.setFillColor(sf::Color::Green);
         DrawAll(rect);
     }
+    else
+    {
     sf::RectangleShape rect(Vector2f(50,50));
     rect.setPosition(Vector2f(b.x, b.y));
     rect.setFillColor(sf::Color::Red);
     DrawAll(rect);
     GenerateTextbox(title, Vector2f(b.x + 5,b.y + title.length()));
+    }
 }
-void Engine::GenerateSprite(std::string fileName, sf::Vector2f b) const
+void Engine::GenerateSprite(std::string fileName, sf::Vector2f b)
 {
     Texture texture;
     texture.loadFromFile(fileName);
     Sprite sprite;
     sprite.setPosition(Vector2f(b.x, b.y));
 	sprite.setScale(4,1.5);
+    sprite.setTexture(texture);
+    DrawAll(sprite);
+}
+void Engine::GenerateSprite(std::string fileName, sf::Vector2f b,float x,float y)
+{
+    Texture texture;
+    texture.loadFromFile(fileName);
+    Sprite sprite;
+    sprite.setPosition(Vector2f(b.x, b.y));
+	sprite.setScale(x,y);
     sprite.setTexture(texture);
     DrawAll(sprite);
 }
