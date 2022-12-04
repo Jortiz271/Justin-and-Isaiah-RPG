@@ -5,18 +5,21 @@
 #include <SFML/Graphics.hpp>
 using namespace sf;
 using namespace std;
-vector<pair<string,int>> BasicEnemy::dropLoot()
+
+BasicEnemy::BasicEnemy()
 {
-	vector<pair<string,int>> Loot;
-	Loot.push_back(this->armor);
-	Loot.push_back(this->weapon);
-	return Loot;
+	Entity::setAttack(15);
+	Entity::setHealth(100);
+	Entity::setlevel(1);
+	enemySprite = BasicEnemy::generateSprite();
 }
 
 int BasicEnemy::dropExperience()
 {
-	return 10 * Level;
+	return 10 * Entity::getLevel();
 }
+
+//Generates one of 3 enemies randmoly for our sprite
 Sprite BasicEnemy::generateSprite()
 {
 	Texture Monster;
@@ -34,14 +37,6 @@ Sprite BasicEnemy::generateSprite()
 	Sprite spriteBoss;
 	spriteBoss.setTexture(Boss);
 	
-	spriteMonster.setScale(0.75, 0.75);
-	spriteMonster.setPosition(800, 800);
-
-	spriteMonster2.setScale(0.75, 0.75);
-	spriteMonster2.setPosition(800, 800);
-
-	spriteBoss.setScale(1.0, 1.0);
-	spriteBoss.setPosition(800, 800);
 	// Use current time as seed for random generator
 	srand(time(0));
 	int randomSelection = (rand() % 3) + 1;
@@ -58,34 +53,17 @@ Sprite BasicEnemy::generateSprite()
 		return spriteMonster2;
 	}
 }
+
+//Constructor
 BasicEnemy::BasicEnemy(int CurrFloor,bool Modifiable)
 {
-	Health = CurrFloor * 3;
-	if(Modifiable)
-	{
-		Attack = CurrFloor * 3;
-	}
-	else
-	{
-		Attack = CurrFloor;
-	}
-};
-Boss::Boss(int CurrFloor,bool Modifiable)
-{
-Health = CurrFloor * 5;
-if(Modifiable)
-{
-	Attack = CurrFloor * 7;
+	Entity::setHealth((CurrFloor + 1 * 50));
+	Entity::setAttack(15);
+	Entity::setlevel(1);
+	generateSprite();
 }
-else
+
+int BasicEnemy::dealDamage(int CurrFloor)
 {
-Attack = CurrFloor * 5;
-}
-}
-void BasicEnemy::DealDamage(Entity* opponent)
-{
-	if(Attack > opponent->Defense)
-	{
-		opponent->SetHealth(Attack - opponent->Defense);
-	}
+	return (1.5 + CurrFloor * getAttack());
 }

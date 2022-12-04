@@ -1,24 +1,22 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include <SFML/Graphics.hpp>
 #include <string>
+#include "entity.h"
 using namespace std;
-class Player
+using namespace sf;
+class Player : public Entity
 {
 private:
-	string armor;
-	string weapon;
-	string magic;
-	int mana;
-	int exp;
-	int healthPotions;
+	Sprite playerSprite;
+	Texture PlayerTexture;
+	//needs function for Ui showing current player health
+	Text HpText;
+	int exp = 0;
 public:
-	bool canCast(int mpCost);
-	void dealDamage();
-	void dealMagicDamage();
-	void setEquipment(string item);
-	int getHealth();
-	void setHealth(int HP);
-	int getMana();
-	void setMana(int MP);
+	Player();
+	void gainExp(int expGain);
+	int dealDamage();
+	Sprite getSprite();
 };
 #endif

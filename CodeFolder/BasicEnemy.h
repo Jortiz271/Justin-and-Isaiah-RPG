@@ -5,43 +5,17 @@
 #include <SFML/Graphics.hpp>
 #include "entity.h"
 using namespace std;
+//inherits from entity with additonal behavior such as awarding exp loading a sprite and dealing its own damage
 class BasicEnemy : public Entity
 {
 
 public:
-	vector<pair<string,int>> dropLoot();
+	BasicEnemy();
 	int dropExperience();
 	sf::Sprite generateSprite();
 	BasicEnemy(int,bool);
-	pair<string,int> armor;
-	pair<string,int> weapon;
-	void DealDamage(Entity*);
-	inline BasicEnemy()
-	{
-		armor = std::make_pair(std::string("Shield"),2);
-		weapon = std::make_pair(std::string("Sword"),2);
-
-
-	}
-	~BasicEnemy()
-	{
-
-	}
-};
-class Boss : public BasicEnemy
-{
-public:
-void isInviincible(int);
+	int dealDamage(int CurrFloor);
 private:
-int TurnCounter;
-bool invincibility;
-string prefix;
-inline Boss()
-{
-	TurnCounter = 0;
-	invincibility = false;
-	prefix = "Magnificent";
-};
-Boss(int,bool);
+	sf::Sprite enemySprite;
 };
 #endif

@@ -2,39 +2,40 @@
 #include <vector>
 #include "entity.h"
 #include "BasicEnemy.h"
-#include <map>
+#include <SFML/Graphics.hpp>
 using namespace std;
+//Creates 1 of 4 different types of rooms ones with monster and a random rest room that regens health for player
+//Spawn one Randmon Monster that you slash down as qucikly as possible
 class Room
 {
 public:
-int MonsterNumber;
-int CurrFloor;
-BasicEnemy GenerateMonster(int,bool);
-vector<Entity*> GenerateRoomBattle();
-bool Trap;
-string TrapType;
-vector<Entity*> Monsters;
-Entity* CurrentMonster;
-int WaitInRoom(int);
-void PickBackground();
-void SetCurrFloor();
+    BasicEnemy* GenerateMonsters();
+    sf::Sprite* RandomRoomBackground();
+    bool isRestSite();
+    void setRestSite(bool isIt);
+    bool getRestSite();
+    int awardhealth();
+    Room();
+    int getFloor();
+private:
+    sf::Sprite roomSprite;
+    int MonsterNumber;
+    int CurrFloor;
+    bool restsite = false;
 };
-class Dungeon
+
+//Dungeon that Holds all the rooms and picks a random one
+class Dungeon : public Room
 {
-public:
+private:
 int FLOORMAX = 10;
 int FloorMIN = 1;
-
 vector<Room*> Rooms;
 Room* CurrentRoom;
-enum FloorName
-{
-    Castle,Basement,Forest
-};
-std::map<FloorName, string> FloorToString;
+
+public:
+void fillDungeonWithRooms();
 void Advance();
-void GenerateRooms();
-void GenerateHouse();
 void FinishDungeon();
-int CurrFloor;
+void setFloor(int num);
 };

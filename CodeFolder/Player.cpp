@@ -1,49 +1,19 @@
 #include "Player.h"
-
-bool Player::canCast(int mpCost)
+//constructor loads a sprite to be associated with the class
+Player::Player()
 {
-	if (mpCost > this->mana)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}	
+	PlayerTexture.loadFromFile("graphics/player.png");
+	playerSprite.setTexture(PlayerTexture);
 }
-
-// what is this for?????
-//was gonna try and use one function declaration to handle casting spells and attacking with sword
-void Player::dealMagicDamage()
+int Player::dealDamage()
 {
-	
+	return Entity::getAttack() + (exp / 10);
 }
-void Player::dealDamage()
+Sprite Player::getSprite()
 {
-	
+	return playerSprite;
 }
-
-void Player::setEquipment(string item)
+void Player::gainExp(int expGain)
 {
-	this->armor = item;
-}
-
-int Player::getHealth()
-{
-	return this->getHealth();
-}
-
-void Player::setHealth(int HP)
-{
-	this->setHealth(HP);
-}
-
-int Player::getMana()
-{
-	return this->mana;
-}
-
-void Player::setMana(int MP)
-{
-	this->mana = MP;
+	this->exp = this->exp + expGain;
 }

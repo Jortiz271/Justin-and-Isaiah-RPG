@@ -1,8 +1,13 @@
 #include "Handler.h"
 #include "entity.h"
 #include "BasicEnemy.h"
+#include "Player.h"
 #include "dungeon.h"
+#include "Functions.h"
+#include "Button.h"
 using namespace sf;
+
+//Generators
 void Engine::GenerateWindow(std::string title)
 {
     float width, height;
@@ -11,17 +16,44 @@ void Engine::GenerateWindow(std::string title)
     VideoMode vm(width, height);
     win.create(vm, title, sf::Style::Default);
 }
-void Engine::GenerateTextbox(std::string a, sf::Vector2f b) const
+
+void Engine::GenerateTextbox(std::string a, sf::Vector2f b, float sizex, float sizey, float Posx, float Posy)
 {
     Font font;
-    font.loadFromFile("/home/admin/Desktop/rpg/Justin-and-Isaiah-RPG/fonts/PaladinFLF.ttf");
-    Text textbox(a, font, 10);
+    font.loadFromFile("fonts/PaladinFLF.ttf");
+    Text textbox(a, font, 30);
     textbox.setFillColor(sf::Color::White);
-    textbox.setOutlineColor(sf::Color::White);
-    textbox.setScale(1, 1);
-    textbox.setPosition(b.x, b.y);
+    textbox.setScale(sizex, sizey);
+    textbox.setPosition(Posx, Posy);
     DrawAll(textbox);
 }
+
+void Engine::GenerateBox(std::string title, sf::Vector2f b, float sizex, float sizey, float Posx, float Posy)
+{
+    // define a 120x50 rectangle
+    sf::RectangleShape rectangle(sf::Vector2f(sizex, sizey));
+    // change the size to 100x100
+    rectangle.setPosition(Posx, Posy);
+    rectangle.setSize(sf::Vector2f(b.x, b.y));
+    rectangle.setFillColor(sf::Color::Cyan);
+    rectangle.setOutlineColor(sf::Color::Black);
+    rectangle.setOutlineThickness(3);
+    rectangle.setScale(5, 5);
+    DrawAll(rectangle);
+}
+
+void Engine::GenerateSprite(std::string fileName, sf::Vector2f b, float x, float y)
+{
+    Texture texture;
+    texture.loadFromFile(fileName);
+    Sprite sprite;
+    sprite.setPosition(Vector2f(b.x, b.y));
+    sprite.setScale(x, y);
+    sprite.setTexture(texture);
+    DrawAll(sprite);
+}
+
+//State
 void Engine::FlipState()
 {
     bool switched = false;
@@ -36,46 +68,46 @@ void Engine::FlipState()
         switched = true;
     }
 }
+
+//Engine Start
 void Engine::EngineStart()
 {
-    sf::Rect<int> Atk(Vector2i(0,1080/2),Vector2i(50,50));
-    sf::Rect<int> Cas(Vector2i(0,1080/2),Vector2i(50,50));
-    sf::Rect<int> Hel(Vector2i(0,1080/2),Vector2i(50,50));
-    sf::Rect<int> Adv(Vector2i(0,1080/2),Vector2i(50,50));
+    //Pointers for the heap for player, enemey, and room
+    Player* player = new Player;
+    BasicEnemy* Enemy = new BasicEnemy;
+    
+    //dungeon class
+    Dungeon jAndIDungeon;
+    int Floor = jAndIDungeon.getFloor();
+    jAndIDungeon.fillDungeonWithRooms();
 
-    Player* player = new Player();
-    Entity* CurrentMonster = new BasicEnemy(1,false);
-    Room* CurrentRoom = new Room();
+    //loop that 
     while (win.isOpen())
     {
         sf::Event evt;
         while (win.pollEvent(evt))
         {
+            // Player input
             // Window closed
             if (evt.type == sf::Event::Closed)
                 win.close();
+            if (evt.type == sf::Event::KeyPressed)
+            {
+                if (evt.KeyPressed == sf::Keyboard::Escape)
+                {
+                    win.close();
+                }
+            }
             if (evt.type == sf::Event::MouseButtonPressed)
             {
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
-                    if(Atk.contains(Mouse::getPosition(win)))
+                    cout << "Mouse pressed!";
+                    clicked.x = evt.mouseButton.x;
+                    clicked.y = evt.mouseButton.y;
+                    if (isAttackButtonPressed(clicked))
                     {
-                        player->DealDamage(CurrentMonster);
-                        std::cout << "You bashed" << std::endl;
-                    }
-                    if(Cas.contains(Mouse::getPosition(win)))
-                    {
-                        player->DealDamage(CurrentMonster);
-                        std::cout << "You magicked" << std::endl;
-                    }
-                    if(Hel.contains(Mouse::getPosition(win)))
-                    {
-                        player->SetHealth(1,player->healthPotions);
-                        std::cout << "You healed!" << std::endl;
-                    }
-                    if(Adv.contains(Mouse::getPosition(win)))
-                    {
-                        std::cout << "man" << std::endl;
+                        attackButtonLogic();
                     }
                 }
             }
@@ -86,56 +118,29 @@ void Engine::EngineStart()
         }
     }
 }
-template <typename T>
-void Engine::DrawAll(T a) const
+
+//draw functions
+void Engine::DrawAll(Text a)
 {
     win.draw(a);
 }
+void Engine::DrawAll(RectangleShape a)
+{
+    win.draw(a);
+}
+void Engine::DrawAll(Sprite a)
+{
+    win.draw(a);
+}
+
 void Engine::UpdateWindow()
 {
-
     win.display();
     FlipState();
 }
+
 void Engine::ClearWindow()
 {
     win.clear();
 }
-void Engine::GenerateBox(std::string title, sf::Vector2f b) const
-{
-    if(title == "BaseUI")
-    {
-        sf::RectangleShape rect(Vector2f(1920,1080/2));
-        rect.setPosition(Vector2f(0,1080/2));
-        rect.setFillColor(sf::Color::Green);
-        DrawAll(rect);
-    }
-    else
-    {
-    sf::RectangleShape rect(Vector2f(50,50));
-    rect.setPosition(Vector2f(b.x, b.y));
-    rect.setFillColor(sf::Color::Red);
-    DrawAll(rect);
-    GenerateTextbox(title, Vector2f(b.x + 5,b.y + title.length()));
-    }
-}
-void Engine::GenerateSprite(std::string fileName, sf::Vector2f b)
-{
-    Texture texture;
-    texture.loadFromFile(fileName);
-    Sprite sprite;
-    sprite.setPosition(Vector2f(b.x, b.y));
-	sprite.setScale(4,1.5);
-    sprite.setTexture(texture);
-    DrawAll(sprite);
-}
-void Engine::GenerateSprite(std::string fileName, sf::Vector2f b,float x,float y)
-{
-    Texture texture;
-    texture.loadFromFile(fileName);
-    Sprite sprite;
-    sprite.setPosition(Vector2f(b.x, b.y));
-	sprite.setScale(x,y);
-    sprite.setTexture(texture);
-    DrawAll(sprite);
-}
+

@@ -1,64 +1,108 @@
 #include "dungeon.h"
-int Room::WaitInRoom(int CurrentFloor)
+#include "BasicEnemy.h"
+using namespace sf;
+//Constructor makes a room, checks if its a rest site if it is no monster spawn will occur and give player health
+Room::Room()
 {
-    //give back health to the player(more health regained in lower floors)
-
-}
-void Room::PickBackground()
-{
-    //setup the backgound texture for the floor
-
-}
-vector<Entity*> Room::GenerateRoomBattle()
-{
-    bool lastMonsterWasModified = false;
-    //Generate a number of monsters equal to 3 more than the current floor
-    for (int i = 0; i < CurrFloor + 3; i++)
+    Room::RandomRoomBackground();
+    srand(time(0));
+    int randomroom = (rand() % 5) + 1;
+    if (randomroom == 5)
     {
-        if (i > 4 && !lastMonsterWasModified)
-        {
-
-            CurrentMonster = new BasicEnemy(CurrFloor, true);
-            lastMonsterWasModified = true;
-            Monsters.push_back(CurrentMonster);
-        }
-        else
-        {
-            CurrentMonster = new BasicEnemy(CurrFloor, false);
-            lastMonsterWasModified = false;
-            Monsters.push_back(CurrentMonster);
-
-        }
-
+        this->restsite = true;
     }
+    else
+    {
+        Room::GenerateMonsters();
+    }
+}
+
+int Room::getFloor()
+{
+    return this->CurrFloor;
+}
+void Room::setRestSite(bool isIt)
+{
+    this->restsite = isIt;
 
 }
+
+bool Room::getRestSite()
+{
+    return restsite;
+}
+
+bool Room::isRestSite()
+{
+    return true;
+}
+//returns a pointer to a new enemy
+BasicEnemy* Room::GenerateMonsters()
+{
+    BasicEnemy *Enemy = new BasicEnemy;
+    return Enemy;
+}
+
+//returns a pointer to 1 of 3 random rooms
+sf::Sprite* Room::RandomRoomBackground()
+{
+    Texture Room1, Room2, Room3;
+    Room1.loadFromFile("graphics/dungeon1.jpg");
+    Room2.loadFromFile("graphics/dungeon2.jpg");
+    Room3.loadFromFile("graphics/dungeon3.png");
+    
+    Sprite* dungeonRoom1 = new Sprite;
+    Sprite* dungeonRoom2 = new Sprite;
+    Sprite* dungeonRoom3 = new Sprite;
+
+    dungeonRoom1->setTexture(Room1);
+    dungeonRoom2->setTexture(Room2);
+    dungeonRoom3->setTexture(Room3);
+
+    srand(time(0));
+    int randomSelection = (rand() % 3) + 1;
+    if (randomSelection == 1)
+    {
+        return dungeonRoom1;
+    }
+    else if (randomSelection == 2)
+    {
+        return dungeonRoom2;
+    }
+    else
+    {
+        return dungeonRoom3;
+    }
+}
+
+//clear the vector of rooms for redundancy, then increment the number of current floor, if its less tha FloorMax, else call finish dungeon.
 void Dungeon::Advance()
 {
-    //clear the vector of rooms for redundancy, then increment the number of current floor, if its less tha FloorMax, else call finish dungeon.
-    if (CurrFloor + 1 < FLOORMAX)
+    if (Room::getFloor() + 1 < FLOORMAX)
     {
-        CurrFloor += 1;
+         setFloor(Room::getFloor() + 1);
     }
     else
     {
         FinishDungeon();
     }
-    }
-void Dungeon::GenerateRooms()
-{
-    for (int i = 0; i < CurrFloor + 2; i++)
-    {
-        CurrentRoom = new Room();
-        Rooms.push_back(CurrentRoom);
-    }
-   
 }
+
+//adds rooms into dungeon until dungeon is full of 10 rooms
+void Dungeon::fillDungeonWithRooms()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        Room *newRoom = new Room;
+        Rooms.push_back(newRoom);
+    }
+}
+
 void Dungeon::FinishDungeon()
 {
-    if(CurrFloor == FLOORMAX)
+    if(getFloor() == FLOORMAX)
     {
         //display win screen
-    }
-    
+    }   
 }
+

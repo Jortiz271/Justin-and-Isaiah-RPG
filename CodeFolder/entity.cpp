@@ -1,66 +1,46 @@
 #include "entity.h"
 #include "Handler.h"
-
 int Entity::GetHealth()
 {
-return Health;
+	return Health;
 }
-void Entity::SetHealth(int ChangeValue)
+void Entity::setHealth(int hp)
 {
-if((Health + ChangeValue) > 0)
-{
-    Health += ChangeValue;
+	this->Health = hp;
 }
-else
+bool Entity::Dead()
 {
-Dead = true;
+	if (Health <= 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
-}
-int Entity::GetDefense()
-{
-return Defense;
-}
-void Entity::SetDefense(pair<string,int> armor)
-{
-Defense = armor.second;
-}
-bool Player::CanCast(int a)
-{
-return GetMana() >= 3 ? true : false;
-}
-void Player::DealDamage(Entity* enemy)
-{
-if(CanCast(mana))
-{
-    Attack *= spell.second;
-    enemy->SetHealth(Attack - enemy->GetDefense());
-    Attack /= spell.second;
-    mana -= 3;
-}
-else
-{
-    if(Attack - enemy->GetDefense() > 0)
-    {
-        enemy->SetHealth(Attack - enemy->GetDefense());
-    }
-    else
-    {
-    }
-}
-}
-void Player::SetEquipment(pair<string,int> thing,EquipType)
-{
 
-}
-void Player::SetHealth(int potAmnt,int healVal)
+int Entity::getLevel()
 {
-
+	return this->Level;
 }
-int Player::GetMana()
+void Entity::setlevel(int lvl)
 {
-return mana;
+	this->Level = lvl;
 }
-void Player::SetMana(int CurrFloor)
+int Entity::getAttack()
 {
-mana += CurrFloor;
+	return Attack;
+}
+void Entity::setAttack(int att)
+{
+	this->Attack = att;
+}
+int Entity::dealDamage()
+{
+	return this->Attack;
+}
+void Entity::recieveDamage(int dmg)
+{
+	this->Health = this->Health - dmg;
 }
