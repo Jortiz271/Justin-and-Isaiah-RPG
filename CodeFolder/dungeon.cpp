@@ -17,10 +17,6 @@ Room::Room()
     }
 }
 
-int Room::getFloor()
-{
-    return this->CurrFloor;
-}
 void Room::setRestSite(bool isIt)
 {
     this->restsite = isIt;
@@ -75,12 +71,27 @@ sf::Sprite* Room::RandomRoomBackground()
     }
 }
 
+int Room::awardhealth()
+{
+    return 50;
+}
+
+void Dungeon::setArriving(bool areYou)
+{
+    arriving = areYou;
+}
+
+bool Dungeon::getArriving()
+{
+    return arriving;
+}
+
 //clear the vector of rooms for redundancy, then increment the number of current floor, if its less tha FloorMax, else call finish dungeon.
 void Dungeon::Advance()
 {
-    if (Room::getFloor() + 1 < FLOORMAX)
+    if (getfloor() + 1 < FLOORMAX)
     {
-         setFloor(Room::getFloor() + 1);
+         setFloor(getfloor() + 1);
     }
     else
     {
@@ -100,9 +111,22 @@ void Dungeon::fillDungeonWithRooms()
 
 void Dungeon::FinishDungeon()
 {
-    if(getFloor() == FLOORMAX)
+    if(getfloor() == FLOORMAX)
     {
         //display win screen
     }   
+}
+
+int Dungeon::getfloor()
+{
+    return currentFloor;
+}
+void Dungeon::setFloor(int num)
+{
+    this->currentFloor = num;
+}
+Room* Dungeon::getRoom()
+{
+    return Rooms.at(currentFloor);
 }
 

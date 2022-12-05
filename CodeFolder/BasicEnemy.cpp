@@ -11,7 +11,6 @@ BasicEnemy::BasicEnemy()
 	Entity::setAttack(15);
 	Entity::setHealth(100);
 	Entity::setlevel(1);
-	enemySprite = BasicEnemy::generateSprite();
 }
 
 int BasicEnemy::dropExperience()
@@ -20,7 +19,7 @@ int BasicEnemy::dropExperience()
 }
 
 //Generates one of 3 enemies randmoly for our sprite
-Sprite BasicEnemy::generateSprite()
+void BasicEnemy::generateSprite()
 {
 	Texture Monster;
 	Texture Monster2;
@@ -37,21 +36,27 @@ Sprite BasicEnemy::generateSprite()
 	Sprite spriteBoss;
 	spriteBoss.setTexture(Boss);
 	
-	// Use current time as seed for random generator
+	Sprite* ptr = nullptr;
+	// Use current time as seed for random generator returns random sprite
 	srand(time(0));
 	int randomSelection = (rand() % 3) + 1;
 	if (randomSelection == 1)
 	{
-		return spriteBoss;
+		enemySprite = &spriteBoss;
 	}
 	else if (randomSelection == 2)
 	{
-		return spriteMonster;
+		enemySprite = &spriteMonster;
 	}
 	else
 	{
-		return spriteMonster2;
+		enemySprite = &spriteMonster2;
 	}
+}
+
+sf::Sprite* BasicEnemy::getSprite()
+{
+	return enemySprite;
 }
 
 //Constructor

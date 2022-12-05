@@ -21,11 +21,11 @@ class Engine
     void GenerateWindow(std::string title);
     void GenerateTextbox(std::string a,sf::Vector2f b, float sizex, float sizey, float Posx, float Posy);
     void GenerateBox(std::string title, sf::Vector2f b, float sizex, float sizey, float Posx, float Posy);
-    void GenerateSprite(std::string fileName,sf::Vector2f b, float scalex, float scaley);
+    void GenerateSprite(sf::Sprite* texture, float posx, float posy, float x, float y);
     void FlipState();
     //overloaded draws fixed the errors I was having.
     void DrawAll(sf::Text a);
-    void DrawAll(sf::Sprite a);
+    void DrawAll(sf::Sprite* a);
     void DrawAll(sf::RectangleShape a);
     void ClearWindow();
     void EngineStart();

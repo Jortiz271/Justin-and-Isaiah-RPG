@@ -12,10 +12,11 @@ class BasicEnemy : public Entity
 public:
 	BasicEnemy();
 	int dropExperience();
-	sf::Sprite generateSprite();
+	void generateSprite();
+	sf::Sprite* getSprite();
 	BasicEnemy(int,bool);
 	int dealDamage(int CurrFloor);
 private:
-	sf::Sprite enemySprite;
+	sf::Sprite* enemySprite;
 };
 #endif

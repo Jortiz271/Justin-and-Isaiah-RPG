@@ -15,27 +15,32 @@ public:
     void setRestSite(bool isIt);
     bool getRestSite();
     int awardhealth();
+    
+    //constructor
     Room();
-    int getFloor();
 private:
-    sf::Sprite roomSprite;
-    int MonsterNumber;
-    int CurrFloor;
     bool restsite = false;
+    sf::Sprite roomSprite;
 };
 
 //Dungeon that Holds all the rooms and picks a random one
 class Dungeon : public Room
 {
 private:
+bool restsite = false;
+bool arriving = true;
 int FLOORMAX = 10;
 int FloorMIN = 1;
+int currentFloor = 1;
 vector<Room*> Rooms;
-Room* CurrentRoom;
 
 public:
+Room* getRoom();
+int getfloor();
 void fillDungeonWithRooms();
 void Advance();
 void FinishDungeon();
 void setFloor(int num);
+void setArriving(bool areYou);
+bool getArriving();
 };
