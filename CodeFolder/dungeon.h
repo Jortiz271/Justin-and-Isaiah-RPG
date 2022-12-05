@@ -17,10 +17,11 @@ public:
     int awardhealth();
     Room();
     int getFloor();
+    int CurrFloor;
 private:
     sf::Sprite roomSprite;
     int MonsterNumber;
-    int CurrFloor;
+
     bool restsite = false;
 };
 

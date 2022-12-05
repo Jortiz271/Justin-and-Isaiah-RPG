@@ -12,6 +12,7 @@ BasicEnemy::BasicEnemy()
 	Entity::setHealth(100);
 	Entity::setlevel(1);
 	enemySprite = BasicEnemy::generateSprite();
+	CurrFloor = 1;
 }
 
 int BasicEnemy::dropExperience()
@@ -55,15 +56,16 @@ Sprite BasicEnemy::generateSprite()
 }
 
 //Constructor
-BasicEnemy::BasicEnemy(int CurrFloor,bool Modifiable)
+BasicEnemy::BasicEnemy(int CurrentFloor,bool Modifiable)
 {
 	Entity::setHealth((CurrFloor + 1 * 50));
 	Entity::setAttack(15);
 	Entity::setlevel(1);
 	generateSprite();
+	CurrFloor = CurrentFloor;
 }
 
-int BasicEnemy::dealDamage(int CurrFloor)
+int BasicEnemy::dealDamage()
 {
 	return (1.5 + CurrFloor * getAttack());
 }

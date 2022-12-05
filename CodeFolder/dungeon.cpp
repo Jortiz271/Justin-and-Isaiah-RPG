@@ -11,7 +11,7 @@ Room::Room()
     {
         this->restsite = true;
     }
-    else
+    else    
     {
         Room::GenerateMonsters();
     }
@@ -74,7 +74,11 @@ sf::Sprite* Room::RandomRoomBackground()
         return dungeonRoom3;
     }
 }
-
+//sets the current floor
+void Dungeon::setFloor(int num)
+{
+CurrFloor = num;
+}
 //clear the vector of rooms for redundancy, then increment the number of current floor, if its less tha FloorMax, else call finish dungeon.
 void Dungeon::Advance()
 {
@@ -102,7 +106,7 @@ void Dungeon::FinishDungeon()
 {
     if(getFloor() == FLOORMAX)
     {
-        //display win screen
+        
     }   
 }
 

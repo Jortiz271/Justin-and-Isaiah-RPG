@@ -16,7 +16,7 @@ private:
 public:
 	Player();
 	void gainExp(int expGain);
-	int dealDamage();
+	int dealDamage() override;
 	Sprite getSprite();
 };
 #endif

@@ -11,6 +11,7 @@ class Engine
     Engine()
     {
         now = UPDATING;
+        GenerateWindow("Tales of Fire and Flames");
     }
     //variables
     enum CurrentState { UPDATING, IDLING };

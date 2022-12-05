@@ -36,10 +36,6 @@ void Entity::setAttack(int att)
 {
 	this->Attack = att;
 }
-int Entity::dealDamage()
-{
-	return this->Attack;
-}
 void Entity::recieveDamage(int dmg)
 {
 	this->Health = this->Health - dmg;

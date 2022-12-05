@@ -2,7 +2,7 @@
 #include "Handler.h"
 #include "SFML/Audio.hpp"
 #include <string>
-//Bugged Button wont render properly for some reason I think it has to do with  inheritance or it isn't vibing with handler or somehing
+//Bugged Button wont render properly for some reason I think it has to do with inheritance or it isn't vibing with handler or somehing
 class Buttons : public Engine
 {
 

@@ -14,7 +14,7 @@ public:
 	void setlevel(int lvl);
 	int getAttack();
 	void setAttack(int att);
-	virtual int dealDamage();
+	virtual int dealDamage() = 0;
 	void recieveDamage(int dmg);
 
 private:

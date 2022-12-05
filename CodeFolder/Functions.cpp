@@ -6,8 +6,10 @@ bool isAttackButtonPressed(sf::Vector2f clicked)
 	std::cout << "Used";
 	if (clicked.x > 297 && clicked.x < 675 && clicked.y > 1392 && clicked.y < 1527)
 	{
+		std::cout << std::endl << "True " << std::endl;
 		return true;
 	}
+	std::cout << std::endl << "False " << std::endl;
 	return false;
 }
 void attackButtonLogic()

@@ -14,7 +14,8 @@ public:
 	int dropExperience();
 	sf::Sprite generateSprite();
 	BasicEnemy(int,bool);
-	int dealDamage(int CurrFloor);
+	int dealDamage() override;
+	int CurrFloor;
 private:
 	sf::Sprite enemySprite;
 };

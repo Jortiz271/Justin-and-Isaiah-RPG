@@ -80,7 +80,6 @@ void Engine::EngineStart()
     Dungeon jAndIDungeon;
     int Floor = jAndIDungeon.getFloor();
     jAndIDungeon.fillDungeonWithRooms();
-
     //loop that 
     while (win.isOpen())
     {
@@ -93,7 +92,7 @@ void Engine::EngineStart()
                 win.close();
             if (evt.type == sf::Event::KeyPressed)
             {
-                if (evt.KeyPressed == sf::Keyboard::Escape)
+                if (evt.key.code == sf::Keyboard::Escape)
                 {
                     win.close();
                 }
