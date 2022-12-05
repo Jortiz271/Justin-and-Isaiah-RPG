@@ -8,17 +8,6 @@ void Entity::setHealth(int hp)
 {
 	this->Health = hp;
 }
-bool Entity::Dead()
-{
-	if (Health <= 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 
 int Entity::getLevel()
 {
@@ -39,4 +28,8 @@ void Entity::setAttack(int att)
 void Entity::recieveDamage(int dmg)
 {
 	this->Health = this->Health - dmg;
+	if(Health < 0)
+	{
+		Dead = true;
+	}
 }

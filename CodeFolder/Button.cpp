@@ -11,8 +11,8 @@ Buttons::Buttons()
 
 void Buttons::GenerateButton(float buttonSizex, float buttonSizey, float buttonPositionx, float buttonPositiony, std::string Text)
 {
-	//Engine::GenerateTextbox(Text, sf::Vector2f(buttonPositionx, buttonPositiony), buttonSizex, buttonSizey);
-	//Engine::GenerateBox(Text, sf::Vector2f(buttonPositionx, buttonPositiony), buttonSizex, buttonSizey);
+	Engine::GenerateTextbox(Text, sf::Vector2f(buttonPositionx, buttonPositiony), buttonSizex, buttonSizey,buttonPositionX,buttonPositionY);
+	Engine::GenerateBox(Text, sf::Vector2f(buttonPositionx, buttonPositiony), buttonSizex, buttonSizey,buttonPositionX,buttonPositionY);
 	std::cout << "Button Created" << std::endl;
 }
 

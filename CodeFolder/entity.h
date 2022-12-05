@@ -7,7 +7,8 @@ using namespace std;
 class Entity
 {
 public:
-	bool Dead();
+	bool Dead;
+	virtual void Deaded() = 0;
 	int GetHealth();
 	void setHealth(int hp);
 	int getLevel();

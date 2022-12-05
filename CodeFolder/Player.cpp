@@ -17,3 +17,11 @@ void Player::gainExp(int expGain)
 {
 	this->exp = this->exp + expGain;
 }
+void Player::Deaded()
+{
+	if(Dead)
+	{
+		PlayerTexture.loadFromFile("graphics/playerDead.png");
+		playerSprite.setTexture(PlayerTexture);
+	}
+}

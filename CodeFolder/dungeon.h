@@ -3,6 +3,7 @@
 #include "entity.h"
 #include "BasicEnemy.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 using namespace std;
 //Creates 1 of 4 different types of rooms ones with monster and a random rest room that regens health for player
 //Spawn one Randmon Monster that you slash down as qucikly as possible

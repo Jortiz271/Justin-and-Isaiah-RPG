@@ -16,6 +16,7 @@ public:
 	BasicEnemy(int,bool);
 	int dealDamage() override;
 	int CurrFloor;
+	void Deaded() override;
 private:
 	sf::Sprite enemySprite;
 };

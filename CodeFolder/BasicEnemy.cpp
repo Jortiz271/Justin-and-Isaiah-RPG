@@ -69,3 +69,11 @@ int BasicEnemy::dealDamage()
 {
 	return (1.5 + CurrFloor * getAttack());
 }
+void BasicEnemy::Deaded()
+{
+	if(Dead)
+	{
+		dropExperience();
+		delete this;
+	}
+}
