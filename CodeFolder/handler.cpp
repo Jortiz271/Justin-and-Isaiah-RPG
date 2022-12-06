@@ -77,14 +77,12 @@ void Engine::EngineStart()
     //Pointers for the heap for player, enemey, and room
     Player* player = new Player;
     BasicEnemy* Enemy;
-    
     //dungeon class
     jAndIDungeon.fillDungeonWithRooms();
     Enemy = jAndIDungeon.CurrentEnemy;
     //main loop
     while (win.isOpen())
     {
-
         sf::Event evt;
         while (win.pollEvent(evt))
         {
@@ -109,29 +107,8 @@ void Engine::EngineStart()
                     clicked.y = evt.mouseButton.y;
                     if (isAttackButtonPressed(clicked))
                     {
+                        AttackLogic();
                         
-                        //if the attack button is pressed, deal damage to the enemy based on the player's attack
-                        Enemy->recieveDamage(player->dealDamage());
-                        //if the attack kills the enemy, drop experience and then delete the enemy
-                        //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
-                        if (Enemy->Dead)
-                        {
-                            std::cout << "Enemy Died ";
-                            player->gainExp(Enemy->dropExperience());
-                            jAndIDungeon.AdvanceRoom();
-                            Enemy = jAndIDungeon.CurrentEnemy;
-                            if (jAndIDungeon.finished) { win.close(); }
-                        }
-                        else
-                        {
-                            player->recieveDamage(Enemy->dealDamage());
-                            if(player->Dead)
-                            {
-                                player->Deaded();
-                            }
-                            
-                        }
-
                     }
                 }
             }
@@ -142,7 +119,31 @@ void Engine::EngineStart()
         }
     }
 }
+void Engine::AttackLogic()
+{
+    //if the attack button is pressed, deal damage to the enemy based on the player's attack
+Enemy->recieveDamage(player->dealDamage());
+                        //if the attack kills the enemy, drop experience and then delete the enemy
+                        //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
+if (Enemy->Dead)
+{
+    std::cout << "Enemy Died ";
+    player->gainExp(Enemy->dropExperience());
+    jAndIDungeon.AdvanceRoom();
+    Enemy = jAndIDungeon.CurrentEnemy;
+    if (jAndIDungeon.finished) { win.close(); }
+}
+else
+{
+player->recieveDamage(Enemy->dealDamage());
+if(player->Dead)
+{
+    player->Deaded();
+    win.draw(player->getSprite());
+}
+}
 
+}
 //draw functions
 void Engine::DrawAll(Text a)
 {
