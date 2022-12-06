@@ -1,8 +1,7 @@
+#pragma once
 #include "Handler.h"
 #include "entity.h"
-#include "BasicEnemy.h"
-#include "Player.h"
-#include "dungeon.h"
+#include "Functions.h"
 using namespace sf;
 
 //Generators
@@ -38,13 +37,18 @@ void Engine::GenerateBox(std::string title, sf::Vector2f b, float sizex, float s
     rectangle.setOutlineThickness(3);
     rectangle.setScale(5, 5);
     DrawAll(rectangle);
+    std::cout << "generated box" << std::endl;
 }
 
-void Engine::GenerateSprite(sf::Sprite *texture,float posx, float posy, float x, float y)
+void Engine::GenerateSprite(std::string fileName, sf::Vector2f b, float x, float y)
 {
-    texture->setPosition(Vector2f(posx, posy));
-    texture->setScale(x, y);
-    DrawAll(texture);
+    Texture texture;
+    texture.loadFromFile(fileName);
+    Sprite sprite;
+    sprite.setPosition(Vector2f(b.x, b.y));
+    sprite.setScale(x, y);
+    sprite.setTexture(texture);
+    DrawAll(sprite);
 }
 
 //State
@@ -55,44 +59,31 @@ void Engine::FlipState()
     {
         now = IDLING;
         switched = true;
+        std::cout << "IDLING" << std::endl;
     }
     if (now == IDLING && !switched)
     {
         now = UPDATING;
         switched = true;
+        std::cout << "UPDATING" << std::endl;
     }
 }
+
 
 //Engine Start
 void Engine::EngineStart()
 {
     //Pointers for the heap for player, enemey, and room
     Player* player = new Player;
-   
-    //dungeon class
-    Dungeon jAndIDungeon;
-    //Fill dungeon wil Rooms
-    jAndIDungeon.fillDungeonWithRooms();
-    //Get current floor to advance when monster is dead
-    int Floor = jAndIDungeon.getfloor();
+    BasicEnemy* Enemy = new BasicEnemy;
 
+    //dungeon class
+    int Floor = jAndIDungeon.getFloor();
+    jAndIDungeon.fillDungeonWithRooms();
     //loop that 
+    GenerateBox("Attack", Vector2f(50, 120), 120, 50, 297, 1392);
     while (win.isOpen())
     {
-        //Check if floor is a restsite if it is not spawn and draw monster to fight. if it is then award player some Health.
-        //Also Check if you arrived in a room so it doesn't repeat until monster is dead and you arrive in another room
-        if(!jAndIDungeon.getRestSite() && jAndIDungeon.getArriving())
-        {
-            //bugged causes program to crash
-           BasicEnemy* Enemy = jAndIDungeon.GenerateMonsters();
-           Sprite* spriteptr = Enemy->getSprite();
-           Engine::GenerateSprite(spriteptr, 100, 100, 1, 1);
-           jAndIDungeon.setArriving(false);
-        }
-        else
-        {
-            player->setHealth(jAndIDungeon.awardhealth()+(jAndIDungeon.getfloor()*8)); ;
-        }
 
         sf::Event evt;
         while (win.pollEvent(evt))
@@ -103,7 +94,7 @@ void Engine::EngineStart()
                 win.close();
             if (evt.type == sf::Event::KeyPressed)
             {
-                if (evt.KeyPressed == sf::Keyboard::Escape)
+                if (evt.key.code == sf::Keyboard::Escape)
                 {
                     win.close();
                 }
@@ -112,15 +103,32 @@ void Engine::EngineStart()
             {
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
-                    cout << "Mouse pressed!";
+                    Sounds.playSwordAttack();
+                    cout << "Mouse pressed!" << evt.mouseButton.x << " " << evt.mouseButton.y << endl;
                     clicked.x = evt.mouseButton.x;
                     clicked.y = evt.mouseButton.y;
+                    if (isAttackButtonPressed(clicked))
+                    {
+                        
+                        //if the attack button is pressed, deal damage to the enemy based on the player's attack
+                        Enemy->recieveDamage(player->dealDamage());
+                        //if the attack kills the enemy, drop experience and then delete the enemy
+                        //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
+                        if (Enemy->Dead())
+                        {
+                            std::cout << "Enemy Died ";
+                            player->gainExp(Enemy->dropExperience());
+                            jAndIDungeon.AdvanceRoom();
+                            Enemy = jAndIDungeon.CurrentEnemy;
+                            if (jAndIDungeon.finished) { win.close(); }
+                        }
+
+                    }
                 }
             }
         }
         if (now == UPDATING)
         {
-           
             UpdateWindow();
         }
     }
@@ -135,19 +143,20 @@ void Engine::DrawAll(RectangleShape a)
 {
     win.draw(a);
 }
-void Engine::DrawAll(Sprite* a)
+void Engine::DrawAll(Sprite a)
 {
-    win.draw(*a);
+    win.draw(a);
 }
 
 void Engine::UpdateWindow()
 {
+    std::cout << "Updating Window" << std::endl;
     win.display();
     FlipState();
 }
 
 void Engine::ClearWindow()
 {
+    std::cout << "Clearing Window" << std::endl;
     win.clear();
 }
-

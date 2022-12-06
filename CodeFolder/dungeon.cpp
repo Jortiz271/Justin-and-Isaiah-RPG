@@ -2,6 +2,7 @@
 #include "BasicEnemy.h"
 using namespace sf;
 //Constructor makes a room, checks if its a rest site if it is no monster spawn will occur and give player health
+//if the room isnt a constructor, it generates a pointer to a monster object and pushes it into the room's monster storage
 Room::Room()
 {
     Room::RandomRoomBackground();
@@ -13,10 +14,18 @@ Room::Room()
     }
     else
     {
-        Room::GenerateMonsters();
+        Enemies.push_back(GenerateMonsters());
     }
 }
-
+//deletes the room
+void Room::DestroyRoom()
+{
+    delete this;
+}
+int Room::getFloor()
+{
+    return this->CurrFloor;
+}
 void Room::setRestSite(bool isIt)
 {
     this->restsite = isIt;
@@ -35,7 +44,7 @@ bool Room::isRestSite()
 //returns a pointer to a new enemy
 BasicEnemy* Room::GenerateMonsters()
 {
-    BasicEnemy *Enemy = new BasicEnemy;
+    BasicEnemy* Enemy = new BasicEnemy;
     return Enemy;
 }
 
@@ -46,7 +55,7 @@ sf::Sprite* Room::RandomRoomBackground()
     Room1.loadFromFile("graphics/dungeon1.jpg");
     Room2.loadFromFile("graphics/dungeon2.jpg");
     Room3.loadFromFile("graphics/dungeon3.png");
-    
+
     Sprite* dungeonRoom1 = new Sprite;
     Sprite* dungeonRoom2 = new Sprite;
     Sprite* dungeonRoom3 = new Sprite;
@@ -70,28 +79,25 @@ sf::Sprite* Room::RandomRoomBackground()
         return dungeonRoom3;
     }
 }
-
-int Room::awardhealth()
+//sets the current floor
+void Dungeon::setFloor(int num)
 {
-    return 50;
+    CurrFloor = num;
 }
-
-void Dungeon::setArriving(bool areYou)
-{
-    arriving = areYou;
-}
-
-bool Dungeon::getArriving()
-{
-    return arriving;
-}
-
-//clear the vector of rooms for redundancy, then increment the number of current floor, if its less tha FloorMax, else call finish dungeon.
+//clear the vector of rooms for redundancy, then increment the number of current floor, if its less than FloorMax, else call finish dungeon.
 void Dungeon::Advance()
 {
-    if (getfloor() + 1 < FLOORMAX)
+    if (Room::getFloor() + 1 < FLOORMAX)
     {
-         setFloor(getfloor() + 1);
+        setFloor(Room::getFloor() + 1);
+        for (int i = 0; i < 10; i++)
+        {
+            Rooms.at(i)->DestroyRoom();
+        }
+        Rooms.clear();
+        fillDungeonWithRooms();
+        EnemyNum = 0;
+        std::cout << "you advanced to Floor: " + Room::getFloor() << std::endl;
     }
     else
     {
@@ -104,29 +110,41 @@ void Dungeon::fillDungeonWithRooms()
 {
     for (int i = 0; i < 10; i++)
     {
-        Room *newRoom = new Room;
+        Room* newRoom = new Room;
         Rooms.push_back(newRoom);
     }
+    RoomNum = 0;
 }
 
 void Dungeon::FinishDungeon()
 {
-    if(getfloor() == FLOORMAX)
+    if (getFloor() == FLOORMAX)
     {
-        //display win screen
-    }   
+        std::cout << "you win!" << std::endl;
+        finished = true;
+    }
 }
-
-int Dungeon::getfloor()
+//checks if  the enemy is dead, and if the room the player is in is less than 10
+//if it is, moves the current room forward by one, and increments the RoomsNumber
+//if the vector is at its end, calls advance to move to the next floor
+void Dungeon::AdvanceRoom()
 {
-    return currentFloor;
+    if (CurrentEnemy->Dead() && RoomNum < 9)
+    {
+        RoomNum++;
+        CurrentRoom = Rooms.at(RoomNum);
+        if (!CurrentRoom->getRestSite())
+        {
+            CurrentEnemy = CurrentRoom->Enemies.at(0);
+        }
+        else
+        {
+            std::cout << "Rest Room logic not implemented yet" << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "Called Advance Floor" << std::endl;
+        Advance();
+    }
 }
-void Dungeon::setFloor(int num)
-{
-    this->currentFloor = num;
-}
-Room* Dungeon::getRoom()
-{
-    return Rooms.at(currentFloor);
-}
-

@@ -11,6 +11,7 @@ BasicEnemy::BasicEnemy()
 	Entity::setAttack(15);
 	Entity::setHealth(100);
 	Entity::setlevel(1);
+	enemySprite = BasicEnemy::generateSprite();
 }
 
 int BasicEnemy::dropExperience()
@@ -19,7 +20,7 @@ int BasicEnemy::dropExperience()
 }
 
 //Generates one of 3 enemies randmoly for our sprite
-void BasicEnemy::generateSprite()
+Sprite BasicEnemy::generateSprite()
 {
 	Texture Monster;
 	Texture Monster2;
@@ -35,40 +36,46 @@ void BasicEnemy::generateSprite()
 	spriteMonster2.setTexture(Monster2);
 	Sprite spriteBoss;
 	spriteBoss.setTexture(Boss);
-	
-	Sprite* ptr = nullptr;
-	// Use current time as seed for random generator returns random sprite
+
+	// Use current time as seed for random generator
 	srand(time(0));
 	int randomSelection = (rand() % 3) + 1;
 	if (randomSelection == 1)
 	{
-		enemySprite = &spriteBoss;
+		return spriteBoss;
 	}
 	else if (randomSelection == 2)
 	{
-		enemySprite = &spriteMonster;
+		return spriteMonster;
 	}
 	else
 	{
-		enemySprite = &spriteMonster2;
+		return spriteMonster2;
 	}
 }
 
-sf::Sprite* BasicEnemy::getSprite()
-{
-	return enemySprite;
-}
-
 //Constructor
-BasicEnemy::BasicEnemy(int CurrFloor,bool Modifiable)
+BasicEnemy::BasicEnemy(int CurrentFloor, bool Modifiable)
 {
 	Entity::setHealth((CurrFloor + 1 * 50));
 	Entity::setAttack(15);
 	Entity::setlevel(1);
 	generateSprite();
+	CurrFloor = CurrentFloor;
 }
 
-int BasicEnemy::dealDamage(int CurrFloor)
+int BasicEnemy::dealDamage()
 {
 	return (1.5 + CurrFloor * getAttack());
+}
+void BasicEnemy::Deaded()
+{
+	if (Entity::Dead())
+	{
+		std::cout << "successfully deleted Enemy";
+		sf::Texture DeadText;
+		DeadText.loadFromFile("graphics/PlayerDead.jpg");
+		enemySprite.setTexture(DeadText);
+
+	}
 }

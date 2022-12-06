@@ -12,11 +12,13 @@ class BasicEnemy : public Entity
 public:
 	BasicEnemy();
 	int dropExperience();
-	void generateSprite();
-	sf::Sprite* getSprite();
-	BasicEnemy(int,bool);
-	int dealDamage(int CurrFloor);
+	sf::Sprite generateSprite();
+	BasicEnemy(int CurrentFloor, bool Modifiable);
+	int dealDamage() override;
+	int CurrFloor;
+	void Deaded();
 private:
-	sf::Sprite* enemySprite;
+	sf::Sprite enemySprite;
+	bool dead = false;
 };
 #endif
