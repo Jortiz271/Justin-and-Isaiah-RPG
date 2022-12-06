@@ -22,4 +22,5 @@ private:
 	int Health;
 	int Attack;
 	int Level;
+	bool dead = false;
 };

@@ -1,3 +1,4 @@
+#pragma once
 #include "Handler.h"
 #include "entity.h"
 #include "Functions.h"
@@ -40,11 +41,15 @@ void Engine::GenerateBox(std::string title, sf::Vector2f b, float sizex, float s
     std::cout << "generated box" << std::endl;
 }
 
-void Engine::GenerateSprite(sf::Sprite *texture,float posx, float posy, float x, float y)
+void Engine::GenerateSprite(std::string fileName, sf::Vector2f b, float x, float y)
 {
-    texture->setPosition(Vector2f(posx, posy));
-    texture->setScale(x, y);
-    DrawAll(texture);
+    Texture texture;
+    texture.loadFromFile(fileName);
+    Sprite sprite;
+    sprite.setPosition(Vector2f(b.x, b.y));
+    sprite.setScale(x, y);
+    sprite.setTexture(texture);
+    DrawAll(sprite);
 }
 
 //State
@@ -65,6 +70,7 @@ void Engine::FlipState()
     }
 }
 
+
 //Engine Start
 void Engine::EngineStart()
 {
@@ -79,20 +85,6 @@ void Engine::EngineStart()
     //main loop
     while (win.isOpen())
     {
-        //Check if floor is a restsite if it is not spawn and draw monster to fight. if it is then award player some Health.
-        //Also Check if you arrived in a room so it doesn't repeat until monster is dead and you arrive in another room
-        if(!jAndIDungeon.getRestSite() && jAndIDungeon.getArriving())
-        {
-            //bugged causes program to crash
-           BasicEnemy* Enemy = jAndIDungeon.GenerateMonsters();
-           Sprite* spriteptr = Enemy->getSprite();
-           Engine::GenerateSprite(spriteptr, 100, 100, 1, 1);
-           jAndIDungeon.setArriving(false);
-        }
-        else
-        {
-            player->setHealth(jAndIDungeon.awardhealth()+(jAndIDungeon.getfloor()*8)); ;
-        }
 
         sf::Event evt;
         while (win.pollEvent(evt))
@@ -112,23 +104,24 @@ void Engine::EngineStart()
             {
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
+                    Sounds.playSwordAttack();
+                    cout << "Mouse pressed!" << evt.mouseButton.x << " " << evt.mouseButton.y << endl;
                     clicked.x = evt.mouseButton.x;
                     clicked.y = evt.mouseButton.y;
                     if (isAttackButtonPressed(clicked))
                     {
-                        attackButtonLogic();
+                        
                         //if the attack button is pressed, deal damage to the enemy based on the player's attack
                         Enemy->recieveDamage(player->dealDamage());
                         //if the attack kills the enemy, drop experience and then delete the enemy
                         //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
-                        if(Enemy->Dead)
+                        if (Enemy->Dead())
                         {
+                            std::cout << "Enemy Died ";
                             player->gainExp(Enemy->dropExperience());
-                            std::cout << "Dungeon Current Room Address: " << jAndIDungeon.CurrentRoom << std::endl;
                             jAndIDungeon.AdvanceRoom();
-                            std::cout << "advanced Room" << std::endl;
                             Enemy = jAndIDungeon.CurrentEnemy;
-                            if(jAndIDungeon.finished) { std::cout << "you win!" << std::endl;}
+                            if (jAndIDungeon.finished) { win.close(); }
                         }
 
                     }
@@ -137,7 +130,6 @@ void Engine::EngineStart()
         }
         if (now == UPDATING)
         {
-           
             UpdateWindow();
         }
     }
@@ -152,9 +144,9 @@ void Engine::DrawAll(RectangleShape a)
 {
     win.draw(a);
 }
-void Engine::DrawAll(Sprite* a)
+void Engine::DrawAll(Sprite a)
 {
-    win.draw(*a);
+    win.draw(a);
 }
 void Engine::UpdateWindow()
 {
@@ -167,4 +159,3 @@ void Engine::ClearWindow()
     std::cout << "Clearing Window" << std::endl;
     win.clear();
 }
-

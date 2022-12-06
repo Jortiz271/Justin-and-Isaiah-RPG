@@ -44,7 +44,7 @@ bool Room::isRestSite()
 //returns a pointer to a new enemy
 BasicEnemy* Room::GenerateMonsters()
 {
-    BasicEnemy *Enemy = new BasicEnemy;
+    BasicEnemy* Enemy = new BasicEnemy;
     return Enemy;
 }
 
@@ -55,7 +55,7 @@ sf::Sprite* Room::RandomRoomBackground()
     Room1.loadFromFile("graphics/dungeon1.jpg");
     Room2.loadFromFile("graphics/dungeon2.jpg");
     Room3.loadFromFile("graphics/dungeon3.png");
-    
+
     Sprite* dungeonRoom1 = new Sprite;
     Sprite* dungeonRoom2 = new Sprite;
     Sprite* dungeonRoom3 = new Sprite;
@@ -82,12 +82,12 @@ sf::Sprite* Room::RandomRoomBackground()
 //sets the current floor
 void Dungeon::setFloor(int num)
 {
-CurrFloor = num;
+    CurrFloor = num;
 }
 //clear the vector of rooms for redundancy, then increment the number of current floor, if its less than FloorMax, else call finish dungeon.
 void Dungeon::Advance()
 {
-    if (getfloor() + 1 < FLOORMAX)
+    if (Room::getFloor() + 1 < FLOORMAX)
     {
          setFloor(Room::getFloor() + 1);
          for(int i = 0; i < 10; i++)
@@ -111,7 +111,7 @@ void Dungeon::fillDungeonWithRooms()
 {
     for (int i = 0; i < 10; i++)
     {
-        Room *newRoom = new Room;
+        Room* newRoom = new Room;
         Rooms.push_back(newRoom);
         std::cout << "Room Address for Room number " << i << ": " << newRoom << std::endl;
     }
@@ -123,7 +123,7 @@ void Dungeon::fillDungeonWithRooms()
 
 void Dungeon::FinishDungeon()
 {
-    if(getfloor() == FLOORMAX)
+    if (getFloor() == FLOORMAX)
     {
         std::cout << "you win!" << std::endl;
         finished = true;
