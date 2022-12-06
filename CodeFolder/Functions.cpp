@@ -1,9 +1,11 @@
 #include "Functions.h"
 #include <iostream>
-#include "SoundManager.h"S
-bool isAttackButtonPressed(sf::Vector2f clicked)
+
+bool isAttackButtonPressed(sf::Vector2i clicked)
 {
-	if (clicked.x > 297 && clicked.x < 675 && clicked.y > 600 && clicked.y < 800)
+	sf::IntRect r1(300, 1400, 300, 150);
+
+	if (r1.contains(clicked))
 	{
 		return true;
 	}

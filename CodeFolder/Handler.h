@@ -24,7 +24,7 @@ public:
     //variables
     enum CurrentState { UPDATING, IDLING };
     CurrentState now;
-    sf::Vector2f clicked;
+    sf::Vector2i clicked;
     sf::RenderWindow win;
     Player* player;
     BasicEnemy* Enemy;

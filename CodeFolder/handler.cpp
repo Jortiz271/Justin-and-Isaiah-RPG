@@ -81,7 +81,6 @@ void Engine::EngineStart()
     int Floor = jAndIDungeon.getFloor();
     jAndIDungeon.fillDungeonWithRooms();
     //loop that 
-    GenerateBox("Attack", Vector2f(50, 120), 120, 50, 297, 1392);
     while (win.isOpen())
     {
 
@@ -109,7 +108,7 @@ void Engine::EngineStart()
                     clicked.y = evt.mouseButton.y;
                     if (isAttackButtonPressed(clicked))
                     {
-                        
+                        cout << "Button Pressed";
                         //if the attack button is pressed, deal damage to the enemy based on the player's attack
                         Enemy->recieveDamage(player->dealDamage());
                         //if the attack kills the enemy, drop experience and then delete the enemy
