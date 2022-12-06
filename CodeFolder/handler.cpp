@@ -84,11 +84,15 @@ if (jAndIDungeon.CurrentEnemy->Dead)
     Texture background;
     background.loadFromFile("graphics/dungeon1.jpg");
     sf::Sprite DungeonBackground(background);
+    DungeonBackground.setOrigin(0,0);
+    DungeonBackground.setScale(4,3);
     win.draw(DungeonBackground);
     Sprite Player(player.getSprite());
-    Sprite EnemySp(jAndIDungeon.generateSprite());
+    Texture EnemyTexture;
+    EnemyTexture.loadFromFile("graphics/monstergoo.png");
+    Sprite EnemySp(EnemyTexture);
     EnemySp.setScale(.45,.45);
-    Player.setPosition(Vector2f(300,300));
+    Player.setPosition(Vector2f(600,300));
     win.draw(Player);
     win.draw(EnemySp);
     win.display();
