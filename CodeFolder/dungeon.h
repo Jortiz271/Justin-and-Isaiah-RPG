@@ -32,21 +32,20 @@ private:
 class Dungeon : public Room
 {
 public:
-int FLOORMAX = 10;
-int FloorMIN = 1;
-vector<Room*> Rooms;
-Room* CurrentRoom;
-int RoomNum;
-int EnemyNum;
-int CurrentFloor;
-BasicEnemy* CurrentEnemy;
-bool finished;
+    int FLOORMAX = 10;
+    int FloorMIN = 1;
+    vector<Room*> Rooms;
+    Room* CurrentRoom;
+    int RoomNum;
+    int EnemyNum;
+    BasicEnemy* CurrentEnemy;
+    bool finished;
 
 
-void fillDungeonWithRooms();
-void Advance();
-void FinishDungeon();
-void setFloor(int num);
-void AdvanceRoom();
+    void fillDungeonWithRooms();
+    void Advance();
+    void FinishDungeon();
+    void setFloor(int num);
+    void AdvanceRoom();
 
 };

@@ -1,3 +1,4 @@
+#pragma once
 #include "Handler.h"
 #include "entity.h"
 #include "Functions.h"
@@ -69,6 +70,7 @@ void Engine::FlipState()
     }
 }
 
+
 //Engine Start
 void Engine::EngineStart()
 {
@@ -83,6 +85,7 @@ void Engine::EngineStart()
     //main loop
     while (win.isOpen())
     {
+
         sf::Event evt;
         while (win.pollEvent(evt))
         {
@@ -101,23 +104,24 @@ void Engine::EngineStart()
             {
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
+                    Sounds.playSwordAttack();
+                    cout << "Mouse pressed!" << evt.mouseButton.x << " " << evt.mouseButton.y << endl;
                     clicked.x = evt.mouseButton.x;
                     clicked.y = evt.mouseButton.y;
                     if (isAttackButtonPressed(clicked))
                     {
-                        attackButtonLogic();
+                        
                         //if the attack button is pressed, deal damage to the enemy based on the player's attack
                         Enemy->recieveDamage(player->dealDamage());
                         //if the attack kills the enemy, drop experience and then delete the enemy
                         //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
-                        if(Enemy->Dead)
+                        if (Enemy->Dead())
                         {
+                            std::cout << "Enemy Died ";
                             player->gainExp(Enemy->dropExperience());
-                            std::cout << "Dungeon Current Room Address: " << jAndIDungeon.CurrentRoom << std::endl;
                             jAndIDungeon.AdvanceRoom();
-                            std::cout << "advanced Room" << std::endl;
                             Enemy = jAndIDungeon.CurrentEnemy;
-                            if(jAndIDungeon.finished) { std::cout << "you win!" << std::endl;}
+                            if (jAndIDungeon.finished) { win.close(); }
                         }
 
                     }
@@ -155,4 +159,3 @@ void Engine::ClearWindow()
     std::cout << "Clearing Window" << std::endl;
     win.clear();
 }
-
