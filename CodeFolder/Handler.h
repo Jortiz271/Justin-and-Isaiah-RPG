@@ -7,12 +7,6 @@
 #include "Player.h"
 #include "BasicEnemy.h"
 #include "dungeon.h"
-<<<<<<< HEAD
-//Class that is used to store states, window, sprites, textbox, functions to draw/clear window,
-class Engine
-{
-    public:
-=======
 #include "Functions.h"
 #include "SoundManager.h"
 using namespace sf;
@@ -21,7 +15,6 @@ using namespace std;
 class Engine
 {
 public:
->>>>>>> 8833a5d90aa2614f4723e0bde53ac9498d7d74dc
     inline Engine()
     {
         now = UPDATING;
@@ -36,11 +29,8 @@ public:
     Player* player;
     BasicEnemy* Enemy;
     Dungeon jAndIDungeon;
-<<<<<<< HEAD
-=======
     SoundManager Sounds;
 
->>>>>>> 8833a5d90aa2614f4723e0bde53ac9498d7d74dc
     //functions
     void Bootstrap();
     void GenerateWindow(std::string title);

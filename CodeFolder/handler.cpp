@@ -79,7 +79,6 @@ void Engine::EngineStart()
     BasicEnemy* Enemy;
     
     //dungeon class
-    int Floor = jAndIDungeon.getFloor();
     jAndIDungeon.fillDungeonWithRooms();
     Enemy = jAndIDungeon.CurrentEnemy;
     //main loop
@@ -115,13 +114,22 @@ void Engine::EngineStart()
                         Enemy->recieveDamage(player->dealDamage());
                         //if the attack kills the enemy, drop experience and then delete the enemy
                         //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
-                        if (Enemy->Dead())
+                        if (Enemy->Dead)
                         {
                             std::cout << "Enemy Died ";
                             player->gainExp(Enemy->dropExperience());
                             jAndIDungeon.AdvanceRoom();
                             Enemy = jAndIDungeon.CurrentEnemy;
                             if (jAndIDungeon.finished) { win.close(); }
+                        }
+                        else
+                        {
+                            player->recieveDamage(Enemy->dealDamage());
+                            if(player->Dead)
+                            {
+                                player->Deaded();
+                            }
+                            
                         }
 
                     }

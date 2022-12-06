@@ -98,7 +98,6 @@ void Dungeon::Advance()
          fillDungeonWithRooms();
          EnemyNum = 0;
          RoomNum = 0;
-        std::cout << "you advanced to Floor: " << CurrentFloor << std::endl;
     }
     else
     {
@@ -116,6 +115,7 @@ void Dungeon::fillDungeonWithRooms()
         std::cout << "Room Address for Room number " << i << ": " << newRoom << std::endl;
     }
     RoomNum = 0;
+    EnemyNum = 0;
     CurrentEnemy = Rooms.at(RoomNum)->Enemies.at(0);
     CurrentRoom = Rooms.at(RoomNum);
     finished = false;
@@ -147,6 +147,6 @@ void Dungeon::AdvanceRoom()
     }
     else
     {
-        Advance()
+        Advance();
     }
 }

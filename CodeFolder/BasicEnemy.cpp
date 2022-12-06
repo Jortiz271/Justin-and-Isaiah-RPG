@@ -55,11 +55,7 @@ Sprite BasicEnemy::generateSprite()
 }
 
 //Constructor
-<<<<<<< HEAD
-BasicEnemy::BasicEnemy(int CurrentFloor,bool Modifiable)
-=======
 BasicEnemy::BasicEnemy(int CurrentFloor, bool Modifiable)
->>>>>>> 8833a5d90aa2614f4723e0bde53ac9498d7d74dc
 {
 	Entity::setHealth((CurrFloor + 1 * 50));
 	Entity::setAttack(15);
@@ -74,20 +70,11 @@ int BasicEnemy::dealDamage()
 }
 void BasicEnemy::Deaded()
 {
-<<<<<<< HEAD
-	if(Dead)
-=======
-	if (Entity::Dead())
->>>>>>> 8833a5d90aa2614f4723e0bde53ac9498d7d74dc
+	if (Entity::Dead)
 	{
 		std::cout << "successfully deleted Enemy";
 		sf::Texture DeadText;
 		DeadText.loadFromFile("graphics/PlayerDead.jpg");
 		enemySprite.setTexture(DeadText);
-<<<<<<< HEAD
-		
-=======
-
->>>>>>> 8833a5d90aa2614f4723e0bde53ac9498d7d74dc
 	}
 }
