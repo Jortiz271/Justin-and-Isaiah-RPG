@@ -7,7 +7,7 @@ Player::Player()
 }
 int Player::dealDamage()
 {
-	return Entity::getAttack() + (exp / 10);
+	return Entity::getAttack() + exp;
 }
 Sprite Player::getSprite()
 {
@@ -16,4 +16,13 @@ Sprite Player::getSprite()
 void Player::gainExp(int expGain)
 {
 	this->exp = this->exp + expGain;
+
+}
+void Player::Deaded()
+{
+	if(Dead)
+	{
+		PlayerTexture.loadFromFile("graphics/playerDead.png");
+		playerSprite.setTexture(PlayerTexture);
+	}
 }

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "entity.h"
+#include <iostream>
 using namespace std;
 using namespace sf;
 class Player : public Entity
@@ -16,7 +17,8 @@ private:
 public:
 	Player();
 	void gainExp(int expGain);
-	int dealDamage();
+	void Deaded() override;
+	int dealDamage() override;
 	Sprite getSprite();
 };
 #endif

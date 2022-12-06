@@ -2,6 +2,7 @@
 #include "BasicEnemy.h"
 using namespace sf;
 //Constructor makes a room, checks if its a rest site if it is no monster spawn will occur and give player health
+//if the room isnt a constructor, it generates a pointer to a monster object and pushes it into the room's monster storage
 Room::Room()
 {
     Room::RandomRoomBackground();
@@ -11,12 +12,20 @@ Room::Room()
     {
         this->restsite = true;
     }
-    else
+    else    
     {
-        Room::GenerateMonsters();
+        Enemies.push_back(GenerateMonsters());
     }
 }
-
+//deletes the room
+void Room::DestroyRoom()
+{
+    delete this;
+}
+int Room::getFloor()
+{
+    return this->CurrFloor;
+}
 void Room::setRestSite(bool isIt)
 {
     this->restsite = isIt;
@@ -70,28 +79,26 @@ sf::Sprite* Room::RandomRoomBackground()
         return dungeonRoom3;
     }
 }
-
-int Room::awardhealth()
+//sets the current floor
+void Dungeon::setFloor(int num)
 {
-    return 50;
+CurrFloor = num;
 }
-
-void Dungeon::setArriving(bool areYou)
-{
-    arriving = areYou;
-}
-
-bool Dungeon::getArriving()
-{
-    return arriving;
-}
-
-//clear the vector of rooms for redundancy, then increment the number of current floor, if its less tha FloorMax, else call finish dungeon.
+//clear the vector of rooms for redundancy, then increment the number of current floor, if its less than FloorMax, else call finish dungeon.
 void Dungeon::Advance()
 {
     if (getfloor() + 1 < FLOORMAX)
     {
-         setFloor(getfloor() + 1);
+         setFloor(Room::getFloor() + 1);
+         for(int i = 0; i < 10; i++)
+         {
+            Rooms.at(i)->DestroyRoom();
+         }
+         Rooms.clear();
+         fillDungeonWithRooms();
+         EnemyNum = 0;
+         RoomNum = 0;
+        std::cout << "you advanced to Floor: " << CurrentFloor << std::endl;
     }
     else
     {
@@ -106,27 +113,40 @@ void Dungeon::fillDungeonWithRooms()
     {
         Room *newRoom = new Room;
         Rooms.push_back(newRoom);
+        std::cout << "Room Address for Room number " << i << ": " << newRoom << std::endl;
     }
+    RoomNum = 0;
+    CurrentEnemy = Rooms.at(RoomNum)->Enemies.at(0);
+    CurrentRoom = Rooms.at(RoomNum);
+    finished = false;
 }
 
 void Dungeon::FinishDungeon()
 {
     if(getfloor() == FLOORMAX)
     {
-        //display win screen
+        std::cout << "you win!" << std::endl;
+        finished = true;
     }   
 }
-
-int Dungeon::getfloor()
+//checks if  the enemy is dead, and if the room the player is in is less than 10
+//if it is, moves the current room forward by one, and increments the RoomsNumber
+//if the vector is at its end, calls advance to move to the next floor
+void Dungeon::AdvanceRoom()
 {
-    return currentFloor;
+    if(CurrentEnemy->Dead && RoomNum < 9)
+    {
+        RoomNum++;
+        std::cout << "Current RoomNum: " <<RoomNum << std::endl;
+        CurrentRoom = Rooms.at(RoomNum);
+        std::cout << CurrentRoom << std::endl;
+        if(!CurrentRoom->getRestSite())
+        {
+        CurrentEnemy = CurrentRoom->Enemies.at(0);
+        }
+    }
+    else
+    {
+        Advance()
+    }
 }
-void Dungeon::setFloor(int num)
-{
-    this->currentFloor = num;
-}
-Room* Dungeon::getRoom()
-{
-    return Rooms.at(currentFloor);
-}
-

@@ -1,8 +1,7 @@
 #include "Handler.h"
 #include "entity.h"
-#include "BasicEnemy.h"
-#include "Player.h"
-#include "dungeon.h"
+#include "Functions.h"
+#include "Button.h"
 using namespace sf;
 
 //Generators
@@ -38,6 +37,7 @@ void Engine::GenerateBox(std::string title, sf::Vector2f b, float sizex, float s
     rectangle.setOutlineThickness(3);
     rectangle.setScale(5, 5);
     DrawAll(rectangle);
+    std::cout << "generated box" << std::endl;
 }
 
 void Engine::GenerateSprite(sf::Sprite *texture,float posx, float posy, float x, float y)
@@ -55,11 +55,13 @@ void Engine::FlipState()
     {
         now = IDLING;
         switched = true;
+        std::cout << "IDLING" << std::endl;
     }
     if (now == IDLING && !switched)
     {
         now = UPDATING;
         switched = true;
+        std::cout << "UPDATING" << std::endl;
     }
 }
 
@@ -68,15 +70,13 @@ void Engine::EngineStart()
 {
     //Pointers for the heap for player, enemey, and room
     Player* player = new Player;
-   
+    BasicEnemy* Enemy;
+    
     //dungeon class
-    Dungeon jAndIDungeon;
-    //Fill dungeon wil Rooms
+    int Floor = jAndIDungeon.getFloor();
     jAndIDungeon.fillDungeonWithRooms();
-    //Get current floor to advance when monster is dead
-    int Floor = jAndIDungeon.getfloor();
-
-    //loop that 
+    Enemy = jAndIDungeon.CurrentEnemy;
+    //main loop
     while (win.isOpen())
     {
         //Check if floor is a restsite if it is not spawn and draw monster to fight. if it is then award player some Health.
@@ -103,7 +103,7 @@ void Engine::EngineStart()
                 win.close();
             if (evt.type == sf::Event::KeyPressed)
             {
-                if (evt.KeyPressed == sf::Keyboard::Escape)
+                if (evt.key.code == sf::Keyboard::Escape)
                 {
                     win.close();
                 }
@@ -112,9 +112,26 @@ void Engine::EngineStart()
             {
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
-                    cout << "Mouse pressed!";
                     clicked.x = evt.mouseButton.x;
                     clicked.y = evt.mouseButton.y;
+                    if (isAttackButtonPressed(clicked))
+                    {
+                        attackButtonLogic();
+                        //if the attack button is pressed, deal damage to the enemy based on the player's attack
+                        Enemy->recieveDamage(player->dealDamage());
+                        //if the attack kills the enemy, drop experience and then delete the enemy
+                        //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
+                        if(Enemy->Dead)
+                        {
+                            player->gainExp(Enemy->dropExperience());
+                            std::cout << "Dungeon Current Room Address: " << jAndIDungeon.CurrentRoom << std::endl;
+                            jAndIDungeon.AdvanceRoom();
+                            std::cout << "advanced Room" << std::endl;
+                            Enemy = jAndIDungeon.CurrentEnemy;
+                            if(jAndIDungeon.finished) { std::cout << "you win!" << std::endl;}
+                        }
+
+                    }
                 }
             }
         }
@@ -139,15 +156,15 @@ void Engine::DrawAll(Sprite* a)
 {
     win.draw(*a);
 }
-
 void Engine::UpdateWindow()
 {
+    std::cout << "Updating Window" << std::endl;
     win.display();
     FlipState();
 }
-
 void Engine::ClearWindow()
 {
+    std::cout << "Clearing Window" << std::endl;
     win.clear();
 }
 

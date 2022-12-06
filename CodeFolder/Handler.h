@@ -4,20 +4,29 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Player.h"
+#include "BasicEnemy.h"
+#include "dungeon.h"
 //Class that is used to store states, window, sprites, textbox, functions to draw/clear window,
 class Engine
 {
     public:
-    Engine()
+    inline Engine()
     {
         now = UPDATING;
+        GenerateWindow("Tales of Fire and Flames");
     }
+
     //variables
     enum CurrentState { UPDATING, IDLING };
     CurrentState now;
     sf::Vector2f clicked;
     sf::RenderWindow win;
+    Player* player;
+    BasicEnemy* Enemy;
+    Dungeon jAndIDungeon;
     //functions
+    void Bootstrap();
     void GenerateWindow(std::string title);
     void GenerateTextbox(std::string a,sf::Vector2f b, float sizex, float sizey, float Posx, float Posy);
     void GenerateBox(std::string title, sf::Vector2f b, float sizex, float sizey, float Posx, float Posy);

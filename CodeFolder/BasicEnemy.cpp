@@ -60,15 +60,27 @@ sf::Sprite* BasicEnemy::getSprite()
 }
 
 //Constructor
-BasicEnemy::BasicEnemy(int CurrFloor,bool Modifiable)
+BasicEnemy::BasicEnemy(int CurrentFloor,bool Modifiable)
 {
 	Entity::setHealth((CurrFloor + 1 * 50));
 	Entity::setAttack(15);
 	Entity::setlevel(1);
 	generateSprite();
+	CurrFloor = CurrentFloor;
 }
 
-int BasicEnemy::dealDamage(int CurrFloor)
+int BasicEnemy::dealDamage()
 {
 	return (1.5 + CurrFloor * getAttack());
+}
+void BasicEnemy::Deaded()
+{
+	if(Dead)
+	{
+		std::cout << "successfully deleted Enemy";
+		sf::Texture DeadText;
+		DeadText.loadFromFile("graphics/PlayerDead.jpg");
+		enemySprite.setTexture(DeadText);
+		
+	}
 }

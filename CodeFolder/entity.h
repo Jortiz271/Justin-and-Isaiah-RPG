@@ -7,14 +7,15 @@ using namespace std;
 class Entity
 {
 public:
-	bool Dead();
+	bool Dead;
+	virtual void Deaded() = 0;
 	int GetHealth();
 	void setHealth(int hp);
 	int getLevel();
 	void setlevel(int lvl);
 	int getAttack();
 	void setAttack(int att);
-	virtual int dealDamage();
+	virtual int dealDamage() = 0;
 	void recieveDamage(int dmg);
 
 private:

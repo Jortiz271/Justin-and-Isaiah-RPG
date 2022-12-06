@@ -15,7 +15,9 @@ public:
 	void generateSprite();
 	sf::Sprite* getSprite();
 	BasicEnemy(int,bool);
-	int dealDamage(int CurrFloor);
+	int dealDamage() override;
+	int CurrFloor;
+	void Deaded() override;
 private:
 	sf::Sprite* enemySprite;
 };
