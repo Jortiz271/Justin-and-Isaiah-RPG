@@ -38,6 +38,7 @@ vector<Room*> Rooms;
 Room* CurrentRoom;
 int RoomNum;
 int EnemyNum;
+int CurrentFloor;
 BasicEnemy* CurrentEnemy;
 bool finished;
 

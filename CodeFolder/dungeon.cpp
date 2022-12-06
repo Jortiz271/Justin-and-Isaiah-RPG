@@ -97,7 +97,8 @@ void Dungeon::Advance()
          Rooms.clear();
          fillDungeonWithRooms();
          EnemyNum = 0;
-        std::cout << "you advanced to Floor: " + Room::getFloor() << std::endl;
+         RoomNum = 0;
+        std::cout << "you advanced to Floor: " << CurrentFloor << std::endl;
     }
     else
     {
@@ -112,8 +113,12 @@ void Dungeon::fillDungeonWithRooms()
     {
         Room *newRoom = new Room;
         Rooms.push_back(newRoom);
+        std::cout << "Room Address for Room number " << i << ": " << newRoom << std::endl;
     }
     RoomNum = 0;
+    CurrentEnemy = Rooms.at(RoomNum)->Enemies.at(0);
+    CurrentRoom = Rooms.at(RoomNum);
+    finished = false;
 }
 
 void Dungeon::FinishDungeon()
@@ -132,19 +137,16 @@ void Dungeon::AdvanceRoom()
     if(CurrentEnemy->Dead && RoomNum < 9)
     {
         RoomNum++;
+        std::cout << "Current RoomNum: " <<RoomNum << std::endl;
         CurrentRoom = Rooms.at(RoomNum);
+        std::cout << CurrentRoom << std::endl;
         if(!CurrentRoom->getRestSite())
         {
         CurrentEnemy = CurrentRoom->Enemies.at(0);
         }
-        else
-        {
-            std::cout << "Rest Room logic not implemented yet" << std::endl;
-        }
     }
     else
     {
-        std::cout << "Called Advance Floor" << std::endl;
-        Advance();
+        Advance()
     }
 }

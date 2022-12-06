@@ -72,15 +72,15 @@ void Engine::FlipState()
 //Engine Start
 void Engine::EngineStart()
 {
-        //Pointers for the heap for player, enemey, and room
+    //Pointers for the heap for player, enemey, and room
     Player* player = new Player;
-    BasicEnemy* Enemy = new BasicEnemy;
+    BasicEnemy* Enemy;
     
     //dungeon class
     int Floor = jAndIDungeon.getFloor();
     jAndIDungeon.fillDungeonWithRooms();
-    //loop that 
-    GenerateBox("Attack",Vector2f(50,120),120,50,297,1392);
+    Enemy = jAndIDungeon.CurrentEnemy;
+    //main loop
     while (win.isOpen())
     {
         sf::Event evt;
@@ -101,7 +101,6 @@ void Engine::EngineStart()
             {
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
-                    cout << "Mouse pressed!";
                     clicked.x = evt.mouseButton.x;
                     clicked.y = evt.mouseButton.y;
                     if (isAttackButtonPressed(clicked))
@@ -113,11 +112,12 @@ void Engine::EngineStart()
                         //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
                         if(Enemy->Dead)
                         {
-                            std::cout << "Enemy Died ";
                             player->gainExp(Enemy->dropExperience());
+                            std::cout << "Dungeon Current Room Address: " << jAndIDungeon.CurrentRoom << std::endl;
                             jAndIDungeon.AdvanceRoom();
+                            std::cout << "advanced Room" << std::endl;
                             Enemy = jAndIDungeon.CurrentEnemy;
-                            if(jAndIDungeon.finished) { win.close();}
+                            if(jAndIDungeon.finished) { std::cout << "you win!" << std::endl;}
                         }
 
                     }
@@ -144,14 +144,12 @@ void Engine::DrawAll(Sprite a)
 {
     win.draw(a);
 }
-
 void Engine::UpdateWindow()
 {
     std::cout << "Updating Window" << std::endl;
     win.display();
     FlipState();
 }
-
 void Engine::ClearWindow()
 {
     std::cout << "Clearing Window" << std::endl;
