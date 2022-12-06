@@ -1,3 +1,4 @@
+
 #include "Handler.h"
 #include "entity.h"
 #include "Functions.h"
@@ -73,15 +74,24 @@ jAndIDungeon.CurrentEnemy->recieveDamage(player.dealDamage());
 //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
 if (jAndIDungeon.CurrentEnemy->Dead)
 {
-    // win.clear();
+    win.clear();
     // sf::Sprite Background(jAndIDungeon.RandomRoomBackground());
     // win.draw(Background);
-    // win.draw(player.getSprite());
+    Texture background;
+    background.loadFromFile("graphics/dungeon1.jpg");
+    win.draw(background);
+    Sprite Player(player.getSprite());
+    Sprite EnemySp(jAndIDungeon.generateSprite());
+    EnemySp.setScale(.45,.45);
+    Player.setPosition(Vector2f(300,300));
+    win.draw(Player);
+    win.draw(EnemySp);
+    win.display();
     player.gainExp(jAndIDungeon.CurrentEnemy->dropExperience());
     jAndIDungeon.AdvanceRoom();
     // sf::Sprite EnemySprite(jAndIDungeon.CurrentEnemy->generateTexture());
     // win.draw(EnemySprite);
-    // win.display();
+  
     if(jAndIDungeon.HealthToAward != 0)
     {
         player.setHealth(player.GetHealth() + jAndIDungeon.HealthToAward);

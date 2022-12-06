@@ -155,3 +155,36 @@ int Room::awardhealth()
 {
     return CurrFloor * 2;
 }
+Sprite Dungeon::generateSprite()
+{
+	Texture Monster;
+	Texture Monster2;
+	Texture Boss;
+
+	Monster.loadFromFile("graphics/monster_eyeball.png");
+	Monster2.loadFromFile("graphics/monstergoo.png");
+	Boss.loadFromFile("graphics/Boss.png");
+
+	Sprite spriteMonster;
+	spriteMonster.setTexture(Monster);
+	Sprite spriteMonster2;
+	spriteMonster2.setTexture(Monster2);
+	Sprite spriteBoss;
+	spriteBoss.setTexture(Boss);
+
+	// Use current time as seed for random generator
+	srand(time(0));
+	int randomSelection = (rand() % 3) + 1;
+	if (randomSelection == 1)
+	{
+		return spriteBoss;
+	}
+	else if (randomSelection == 2)
+	{
+		return spriteMonster;
+	}
+	else
+	{
+		return spriteMonster2;
+	}
+}

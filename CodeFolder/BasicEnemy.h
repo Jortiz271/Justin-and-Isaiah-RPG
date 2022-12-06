@@ -18,7 +18,6 @@ public:
 	void Deaded() override;
 	sf::Sprite generateSprite();
 	BasicEnemy(int CurrentFloor, bool Modifiable);
-private:
 	sf::Sprite enemySprite;
 	bool dead = false;
 };

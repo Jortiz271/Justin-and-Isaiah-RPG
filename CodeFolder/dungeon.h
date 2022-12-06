@@ -48,5 +48,6 @@ public:
     void FinishDungeon();
     void setFloor(int num);
     void AdvanceRoom();
+    sf::Sprite generateSprite();
 
 };
