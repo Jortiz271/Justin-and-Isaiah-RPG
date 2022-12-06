@@ -11,7 +11,6 @@ Player::Player()
 }
 int Player::dealDamage()
 {
-	std::cout << "player dealt damage" << std::endl;
 	return Entity::getAttack() + exp;
 }
 Sprite Player::getSprite()
@@ -27,7 +26,7 @@ void Player::Deaded()
 {
 	if(Dead)
 	{
-		PlayerTexture.loadFromFile("graphics/playerDead.png");
+		PlayerTexture.loadFromFile("graphics/PlayerDead.jpg");
 		playerSprite.setTexture(PlayerTexture);
 	}
 }

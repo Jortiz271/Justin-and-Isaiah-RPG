@@ -72,7 +72,7 @@ void BasicEnemy::Deaded()
 {
 	if (Entity::Dead)
 	{
-		std::cout << "successfully deleted Enemy";
+
 		sf::Texture DeadText;
 		DeadText.loadFromFile("graphics/PlayerDead.jpg");
 		enemySprite.setTexture(DeadText);

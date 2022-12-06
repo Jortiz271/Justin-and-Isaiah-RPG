@@ -38,7 +38,6 @@ void Engine::GenerateBox(std::string title, sf::Vector2f b, float sizex, float s
     rectangle.setOutlineThickness(3);
     rectangle.setScale(5, 5);
     DrawAll(rectangle);
-    std::cout << "generated box" << std::endl;
 }
 
 void Engine::GenerateSprite(std::string fileName, sf::Vector2f b, float x, float y)
@@ -60,27 +59,30 @@ void Engine::FlipState()
     {
         now = IDLING;
         switched = true;
-        std::cout << "IDLING" << std::endl;
     }
     if (now == IDLING && !switched)
     {
         now = UPDATING;
         switched = true;
-        std::cout << "UPDATING" << std::endl;
     }
 }
 void Engine::AttackLogic()
 {
-    std::cout << "attacked" << std::endl;
     //if the attack button is pressed, deal damage to the enemy based on the player's attack
 jAndIDungeon.CurrentEnemy->recieveDamage(player.dealDamage());
-std::cout << "Dealt Damage" << std::endl;
 //if the attack kills the enemy, drop experience and then delete the enemy
 //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
 if (jAndIDungeon.CurrentEnemy->Dead)
 {
+    // win.clear();
+    // sf::Sprite Background(jAndIDungeon.RandomRoomBackground());
+    // win.draw(Background);
+    // win.draw(player.getSprite());
     player.gainExp(jAndIDungeon.CurrentEnemy->dropExperience());
     jAndIDungeon.AdvanceRoom();
+    // sf::Sprite EnemySprite(jAndIDungeon.CurrentEnemy->generateTexture());
+    // win.draw(EnemySprite);
+    // win.display();
     if(jAndIDungeon.HealthToAward != 0)
     {
         player.setHealth(player.GetHealth() + jAndIDungeon.HealthToAward);
@@ -141,7 +143,6 @@ void Engine::EngineStart()
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
                     Sounds.playSwordAttack();
-                    cout << "Mouse pressed!" << evt.mouseButton.x << " " << evt.mouseButton.y << endl;
                     clicked.x = evt.mouseButton.x;
                     clicked.y = evt.mouseButton.y;
                     if (isAttackButtonPressed(clicked))
@@ -173,12 +174,10 @@ void Engine::DrawAll(Sprite a)
 }
 void Engine::UpdateWindow()
 {
-    std::cout << "Updating Window" << std::endl;
     win.display();
     FlipState();
 }
 void Engine::ClearWindow()
 {
-    std::cout << "Clearing Window" << std::endl;
     win.clear();
 }

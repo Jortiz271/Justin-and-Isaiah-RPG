@@ -113,12 +113,10 @@ void Dungeon::fillDungeonWithRooms()
     {
         Room* newRoom = new Room;
         Rooms.push_back(newRoom);
-        std::cout << "Room Address for Room number " << i << ": " << newRoom << std::endl;
     }
     RoomNum = 0;
     EnemyNum = 0;
     CurrentEnemy = Rooms.at(RoomNum)->Enemies.at(0);
-    std::cout << "Address for CurrentEnemy " << CurrentEnemy << std::endl;
     CurrentRoom = Rooms.at(RoomNum);
     finished = false;
 }
@@ -127,7 +125,6 @@ void Dungeon::FinishDungeon()
 {
     if (getFloor() == FLOORMAX)
     {
-        std::cout << "you win!" << std::endl;
         finished = true;
     }   
 }
@@ -139,9 +136,7 @@ void Dungeon::AdvanceRoom()
     if(CurrentEnemy->Dead && RoomNum < 9)
     {
         RoomNum++;
-        std::cout << "Current RoomNum: " <<RoomNum << std::endl;
         CurrentRoom = Rooms.at(RoomNum);
-        std::cout << CurrentRoom << std::endl;
         if(!CurrentRoom->getRestSite())
         {
         CurrentEnemy = CurrentRoom->Enemies.at(0);
