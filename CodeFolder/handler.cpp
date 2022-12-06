@@ -102,12 +102,13 @@ void Engine::EngineStart()
             {
                 if (evt.mouseButton.button == Mouse::Button::Left)
                 {
-                    Sounds.playSwordAttack();
                     cout << "Mouse pressed!" << evt.mouseButton.x << " " << evt.mouseButton.y << endl;
                     clicked.x = evt.mouseButton.x;
                     clicked.y = evt.mouseButton.y;
                     if (isAttackButtonPressed(clicked))
                     {
+                        Sounds.playSwordAttack();
+                        Sounds.playButton();
                         cout << "Button Pressed";
                         //if the attack button is pressed, deal damage to the enemy based on the player's attack
                         Enemy->recieveDamage(player->dealDamage());

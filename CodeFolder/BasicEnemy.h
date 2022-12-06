@@ -4,6 +4,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "entity.h"
+
 using namespace std;
 //inherits from entity with additonal behavior such as awarding exp loading a sprite and dealing its own damage
 class BasicEnemy : public Entity

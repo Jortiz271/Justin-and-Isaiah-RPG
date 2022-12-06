@@ -11,7 +11,3 @@ bool isAttackButtonPressed(sf::Vector2i clicked)
 	}
 	return false;
 }
-void attackButtonLogic()
-{
-	
-}

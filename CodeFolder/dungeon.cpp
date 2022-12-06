@@ -1,5 +1,6 @@
 #include "dungeon.h"
 #include "BasicEnemy.h"
+#include "TextureHolder.h"
 using namespace sf;
 //Constructor makes a room, checks if its a rest site if it is no monster spawn will occur and give player health
 //if the room isnt a constructor, it generates a pointer to a monster object and pushes it into the room's monster storage
@@ -14,7 +15,7 @@ Room::Room()
     }
     else
     {
-        Enemies.push_back(GenerateMonsters());
+        Room::GenerateMonsters();
     }
 }
 //deletes the room
@@ -42,41 +43,33 @@ bool Room::isRestSite()
     return true;
 }
 //returns a pointer to a new enemy
-BasicEnemy* Room::GenerateMonsters()
+BasicEnemy Room::GenerateMonsters()
 {
-    BasicEnemy* Enemy = new BasicEnemy;
+    BasicEnemy Enemy;
     return Enemy;
 }
 
 //returns a pointer to 1 of 3 random rooms
-sf::Sprite* Room::RandomRoomBackground()
+sf::Sprite Room::RandomRoomBackground()
 {
-    Texture Room1, Room2, Room3;
-    Room1.loadFromFile("graphics/dungeon1.jpg");
-    Room2.loadFromFile("graphics/dungeon2.jpg");
-    Room3.loadFromFile("graphics/dungeon3.png");
-
-    Sprite* dungeonRoom1 = new Sprite;
-    Sprite* dungeonRoom2 = new Sprite;
-    Sprite* dungeonRoom3 = new Sprite;
-
-    dungeonRoom1->setTexture(Room1);
-    dungeonRoom2->setTexture(Room2);
-    dungeonRoom3->setTexture(Room3);
-
+    roomSprite.setOrigin(0, 0);
     srand(time(0));
     int randomSelection = (rand() % 3) + 1;
     if (randomSelection == 1)
     {
-        return dungeonRoom1;
+        
+        roomSprite = Sprite(TextureHolder::GetTexture("graphics/dungeon1.jpg"));
+        return roomSprite;
     }
     else if (randomSelection == 2)
     {
-        return dungeonRoom2;
+        roomSprite = Sprite(TextureHolder::GetTexture("graphics/dungeon2.jpg"));
+        return roomSprite;
     }
     else
     {
-        return dungeonRoom3;
+        roomSprite = Sprite(TextureHolder::GetTexture("graphics/dungeon3.jpg"));
+        return roomSprite;
     }
 }
 //sets the current floor
@@ -92,7 +85,7 @@ void Dungeon::Advance()
         setFloor(Room::getFloor() + 1);
         for (int i = 0; i < 10; i++)
         {
-            Rooms.at(i)->DestroyRoom();
+            Rooms.at(i);
         }
         Rooms.clear();
         fillDungeonWithRooms();
@@ -135,7 +128,7 @@ void Dungeon::AdvanceRoom()
         CurrentRoom = Rooms.at(RoomNum);
         if (!CurrentRoom->getRestSite())
         {
-            CurrentEnemy = CurrentRoom->Enemies.at(0);
+            CurrentEnemy = CurrentRoom->Enemies.at(RoomNum);
         }
         else
         {

@@ -9,6 +9,7 @@
 #include "dungeon.h"
 #include "Functions.h"
 #include "SoundManager.h"
+#include "TextureHolder.h"
 using namespace sf;
 using namespace std;
 //Class that is used to store states, window, sprites, textbox, functions to draw/clear window,
@@ -30,6 +31,7 @@ public:
     BasicEnemy* Enemy;
     Dungeon jAndIDungeon;
     SoundManager Sounds;
+    TextureHolder Textures;
 
     //functions
     void Bootstrap();

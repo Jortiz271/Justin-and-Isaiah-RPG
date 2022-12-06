@@ -3,6 +3,7 @@
 #include <iostream>
 #include <time.h>
 #include <SFML/Graphics.hpp>
+#include "TextureHolder.h"
 using namespace sf;
 using namespace std;
 
@@ -22,35 +23,26 @@ int BasicEnemy::dropExperience()
 //Generates one of 3 enemies randmoly for our sprite
 Sprite BasicEnemy::generateSprite()
 {
-	Texture Monster;
-	Texture Monster2;
-	Texture Boss;
-
-	Monster.loadFromFile("graphics/monster_eyeball.png");
-	Monster2.loadFromFile("graphics/monstergoo.png");
-	Boss.loadFromFile("graphics/Boss.png");
-
-	Sprite spriteMonster;
-	spriteMonster.setTexture(Monster);
-	Sprite spriteMonster2;
-	spriteMonster2.setTexture(Monster2);
-	Sprite spriteBoss;
-	spriteBoss.setTexture(Boss);
-
 	// Use current time as seed for random generator
 	srand(time(0));
 	int randomSelection = (rand() % 3) + 1;
 	if (randomSelection == 1)
 	{
-		return spriteBoss;
+		enemySprite.setPosition(Vector2f(300, 600));
+		enemySprite = Sprite(TextureHolder::GetTexture("graphics/monster_eyeball.png"));
+		return enemySprite;
 	}
 	else if (randomSelection == 2)
 	{
-		return spriteMonster;
+		enemySprite.setPosition(Vector2f(300, 600));
+		enemySprite = Sprite(TextureHolder::GetTexture("graphics/monstergoo.png"));
+		return enemySprite;
 	}
 	else
 	{
-		return spriteMonster2;
+		enemySprite.setPosition(Vector2f(300, 600));
+		enemySprite = Sprite(TextureHolder::GetTexture("graphics/Boss.png"));
+		return enemySprite;
 	}
 }
 

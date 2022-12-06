@@ -10,8 +10,8 @@ using namespace std;
 class Room
 {
 public:
-    BasicEnemy* GenerateMonsters();
-    sf::Sprite* RandomRoomBackground();
+    BasicEnemy GenerateMonsters();
+    sf::Sprite RandomRoomBackground();
     bool isRestSite();
     void setRestSite(bool isIt);
     bool getRestSite();
@@ -20,11 +20,10 @@ public:
     void DestroyRoom();
     int getFloor();
     int CurrFloor;
-    vector<BasicEnemy*> Enemies;
+    BasicEnemy Enemy;
 private:
     sf::Sprite roomSprite;
     int MonsterNumber;
-
     bool restsite = false;
 };
 
