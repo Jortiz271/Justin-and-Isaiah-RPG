@@ -131,7 +131,13 @@ if (Enemy->Dead)
     player->gainExp(Enemy->dropExperience());
     jAndIDungeon.AdvanceRoom();
     Enemy = jAndIDungeon.CurrentEnemy;
-    if (jAndIDungeon.finished) { win.close(); }
+    if (jAndIDungeon.finished) 
+    {
+        sf::Texture winscreen;
+        winscreen.loadFromFile("graphics/winscreen.jpg");
+        sf::Sprite WinningScreen(winscreen);
+        win.draw(WinningScreen);
+    }
 }
 else
 {

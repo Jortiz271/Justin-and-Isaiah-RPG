@@ -45,4 +45,5 @@ public:
     void ClearWindow();
     void EngineStart();
     void UpdateWindow();
+    void AttackLogic();
 };
