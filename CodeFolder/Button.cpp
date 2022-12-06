@@ -5,7 +5,7 @@
 //constructors
 Buttons::Buttons()
 {
-	float buttonSizeX = 100, buttonSizeY = 50, buttonPositionX = 0, buttonPositionY = 0;
+	//float buttonSizeX = 100, buttonSizeY = 50, buttonPositionX = 0, buttonPositionY = 0;
 	std::string buttonText = "";
 }
 
@@ -38,7 +38,7 @@ bool Buttons::isPressed(int mousex, int mousey)
 
 void Buttons::createButton()
 {
-	float buttonSizeX = 100, buttonSizeY = 50, buttonPositionX = 0, buttonPositionY = 0;
+	//float buttonSizeX = 100, buttonSizeY = 50, buttonPositionX = 0, buttonPositionY = 0;
 	std::string buttonText = "";
 	//Engine::GenerateBox(this->buttonText, sf::Vector2f(this->buttonPositionX, this->buttonPositionY), this->buttonSizeX, this->buttonSizeY);
 	//Engine::GenerateTextbox(this->buttonText,sf::Vector2f(this->buttonPositionX,this->buttonPositionY),this->buttonSizeX, this->buttonSizeY);

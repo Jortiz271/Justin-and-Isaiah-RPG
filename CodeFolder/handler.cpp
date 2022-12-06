@@ -1,4 +1,3 @@
-#pragma once
 #include "Handler.h"
 #include "entity.h"
 #include "Functions.h"
