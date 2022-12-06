@@ -69,7 +69,11 @@ void Engine::FlipState()
 void Engine::AttackLogic()
 {
     //if the attack button is pressed, deal damage to the enemy based on the player's attack
+    if(!jAndIDungeon.CurrentRoom->isRestSite())
+    {
 jAndIDungeon.CurrentEnemy->recieveDamage(player.dealDamage());
+    }
+
 //if the attack kills the enemy, drop experience and then delete the enemy
 //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
 if (jAndIDungeon.CurrentEnemy->Dead)
@@ -79,7 +83,8 @@ if (jAndIDungeon.CurrentEnemy->Dead)
     // win.draw(Background);
     Texture background;
     background.loadFromFile("graphics/dungeon1.jpg");
-    win.draw(background);
+    sf::Sprite DungeonBackground(background);
+    win.draw(DungeonBackground);
     Sprite Player(player.getSprite());
     Sprite EnemySp(jAndIDungeon.generateSprite());
     EnemySp.setScale(.45,.45);
