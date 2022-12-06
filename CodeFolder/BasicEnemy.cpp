@@ -76,5 +76,6 @@ void BasicEnemy::Deaded()
 		sf::Texture DeadText;
 		DeadText.loadFromFile("graphics/PlayerDead.jpg");
 		enemySprite.setTexture(DeadText);
+		enemySprite.setPosition(600,300);
 	}
 }

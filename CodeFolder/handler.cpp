@@ -20,7 +20,7 @@ void Engine::GenerateTextbox(std::string a, sf::Vector2f b, float sizex, float s
     Font font;
     font.loadFromFile("fonts/PaladinFLF.ttf");
     Text textbox(a, font, 30);
-    textbox.setFillColor(sf::Color::White);
+    textbox.setFillColor(sf::Color::Black);
     textbox.setScale(sizex, sizey);
     textbox.setPosition(Posx, Posy);
     DrawAll(textbox);
@@ -38,6 +38,7 @@ void Engine::GenerateBox(std::string title, sf::Vector2f b, float sizex, float s
     rectangle.setOutlineThickness(3);
     rectangle.setScale(5, 5);
     DrawAll(rectangle);
+    GenerateTextbox(title,b,sizex,sizey,Posx,Posy);
 }
 
 void Engine::GenerateSprite(std::string fileName, sf::Vector2f b, float x, float y)
@@ -95,6 +96,7 @@ if (jAndIDungeon.CurrentEnemy->Dead)
     Player.setPosition(Vector2f(600,300));
     win.draw(Player);
     win.draw(EnemySp);
+    GenerateBox("Attack",sf::Vector2f(75,25),100,100,300,600);
     win.display();
     player.gainExp(jAndIDungeon.CurrentEnemy->dropExperience());
     jAndIDungeon.AdvanceRoom();
