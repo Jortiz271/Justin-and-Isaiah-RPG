@@ -17,8 +17,10 @@ public:
     bool getRestSite();
     int awardhealth();
     Room();
+    void DestroyRoom();
     int getFloor();
     int CurrFloor;
+    vector<BasicEnemy*> Enemies;
 private:
     sf::Sprite roomSprite;
     int MonsterNumber;
@@ -29,15 +31,21 @@ private:
 //Dungeon that Holds all the rooms and picks a random one
 class Dungeon : public Room
 {
-private:
+public:
 int FLOORMAX = 10;
 int FloorMIN = 1;
 vector<Room*> Rooms;
 Room* CurrentRoom;
+int RoomNum;
+int EnemyNum;
+BasicEnemy* CurrentEnemy;
+bool finished;
 
-public:
+
 void fillDungeonWithRooms();
 void Advance();
 void FinishDungeon();
 void setFloor(int num);
+void AdvanceRoom();
+
 };

@@ -12,7 +12,6 @@ BasicEnemy::BasicEnemy()
 	Entity::setHealth(100);
 	Entity::setlevel(1);
 	enemySprite = BasicEnemy::generateSprite();
-	CurrFloor = 1;
 }
 
 int BasicEnemy::dropExperience()
@@ -73,7 +72,10 @@ void BasicEnemy::Deaded()
 {
 	if(Dead)
 	{
-		dropExperience();
-		delete this;
+		std::cout << "successfully deleted Enemy";
+		sf::Texture DeadText;
+		DeadText.loadFromFile("graphics/PlayerDead.jpg");
+		enemySprite.setTexture(DeadText);
+		
 	}
 }

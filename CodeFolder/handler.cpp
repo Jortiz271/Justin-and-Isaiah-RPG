@@ -1,8 +1,5 @@
 #include "Handler.h"
 #include "entity.h"
-#include "BasicEnemy.h"
-#include "Player.h"
-#include "dungeon.h"
 #include "Functions.h"
 #include "Button.h"
 using namespace sf;
@@ -40,6 +37,7 @@ void Engine::GenerateBox(std::string title, sf::Vector2f b, float sizex, float s
     rectangle.setOutlineThickness(3);
     rectangle.setScale(5, 5);
     DrawAll(rectangle);
+    std::cout << "generated box" << std::endl;
 }
 
 void Engine::GenerateSprite(std::string fileName, sf::Vector2f b, float x, float y)
@@ -61,26 +59,28 @@ void Engine::FlipState()
     {
         now = IDLING;
         switched = true;
+        std::cout << "IDLING" << std::endl;
     }
     if (now == IDLING && !switched)
     {
         now = UPDATING;
         switched = true;
+        std::cout << "UPDATING" << std::endl;
     }
 }
 
 //Engine Start
 void Engine::EngineStart()
 {
-    //Pointers for the heap for player, enemey, and room
+        //Pointers for the heap for player, enemey, and room
     Player* player = new Player;
     BasicEnemy* Enemy = new BasicEnemy;
     
     //dungeon class
-    Dungeon jAndIDungeon;
     int Floor = jAndIDungeon.getFloor();
     jAndIDungeon.fillDungeonWithRooms();
     //loop that 
+    GenerateBox("Attack",Vector2f(50,120),120,50,297,1392);
     while (win.isOpen())
     {
         sf::Event evt;
@@ -107,6 +107,19 @@ void Engine::EngineStart()
                     if (isAttackButtonPressed(clicked))
                     {
                         attackButtonLogic();
+                        //if the attack button is pressed, deal damage to the enemy based on the player's attack
+                        Enemy->recieveDamage(player->dealDamage());
+                        //if the attack kills the enemy, drop experience and then delete the enemy
+                        //if the enemy is the last one in the room, call advance room, otherwise move on to the next enemy
+                        if(Enemy->Dead)
+                        {
+                            std::cout << "Enemy Died ";
+                            player->gainExp(Enemy->dropExperience());
+                            jAndIDungeon.AdvanceRoom();
+                            Enemy = jAndIDungeon.CurrentEnemy;
+                            if(jAndIDungeon.finished) { win.close();}
+                        }
+
                     }
                 }
             }
@@ -134,12 +147,14 @@ void Engine::DrawAll(Sprite a)
 
 void Engine::UpdateWindow()
 {
+    std::cout << "Updating Window" << std::endl;
     win.display();
     FlipState();
 }
 
 void Engine::ClearWindow()
 {
+    std::cout << "Clearing Window" << std::endl;
     win.clear();
 }
 
