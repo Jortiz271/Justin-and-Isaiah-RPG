@@ -5,6 +5,7 @@ using namespace sf;
 //if the room isnt a constructor, it generates a pointer to a monster object and pushes it into the room's monster storage
 Room::Room()
 {
+    CurrFloor = 10;
     Room::RandomRoomBackground();
     srand(time(0));
     int randomroom = (rand() % 5) + 1;
@@ -117,6 +118,7 @@ void Dungeon::fillDungeonWithRooms()
     RoomNum = 0;
     EnemyNum = 0;
     CurrentEnemy = Rooms.at(RoomNum)->Enemies.at(0);
+    std::cout << "Address for CurrentEnemy " << CurrentEnemy << std::endl;
     CurrentRoom = Rooms.at(RoomNum);
     finished = false;
 }
@@ -144,9 +146,17 @@ void Dungeon::AdvanceRoom()
         {
         CurrentEnemy = CurrentRoom->Enemies.at(0);
         }
+        else
+        {
+            HealthToAward = CurrentRoom->awardhealth();
+        }
     }
     else
     {
         Advance();
     }
+}
+int Room::awardhealth()
+{
+    return CurrFloor * 2;
 }

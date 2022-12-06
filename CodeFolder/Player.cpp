@@ -4,9 +4,14 @@ Player::Player()
 {
 	PlayerTexture.loadFromFile("graphics/player.png");
 	playerSprite.setTexture(PlayerTexture);
+	Entity::setHealth(50);
+	Entity::setAttack(15);
+	Entity::setlevel(1);
+
 }
 int Player::dealDamage()
 {
+	std::cout << "player dealt damage" << std::endl;
 	return Entity::getAttack() + exp;
 }
 Sprite Player::getSprite()

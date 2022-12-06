@@ -26,7 +26,7 @@ public:
     CurrentState now;
     sf::Vector2f clicked;
     sf::RenderWindow win;
-    Player* player;
+    Player player;
     BasicEnemy* Enemy;
     Dungeon jAndIDungeon;
     SoundManager Sounds;

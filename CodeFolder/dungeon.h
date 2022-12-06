@@ -40,6 +40,7 @@ public:
     int EnemyNum;
     BasicEnemy* CurrentEnemy;
     bool finished;
+    int HealthToAward;
 
 
     void fillDungeonWithRooms();
